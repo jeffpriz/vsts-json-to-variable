@@ -1,0 +1,46 @@
+{
+    "manifestVersion": 1,
+    "id": "json2variable",
+    "name": "Json to Variable",
+    "version": "0.1.0",
+    "publisher": "OneLuckiDev",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "icons": {
+        "default": "images/icon-small.png"
+    },
+    "description": "Task that will read a JSON file present on your build agent, from a build or a release, and will Generate Build/Release Variables to be used in other steps.",
+    "categories": [
+        "Build and release"
+    ],
+    "files": [
+        {
+            "path": "Json2Variable"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "vsts-release-web-test",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Json2Variable"
+            }
+        }
+    ],
+    "content": {
+        "details": {
+            "path": "README.md"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/jeffpriz/vsts-json-to-variable"
+    },
+    "public": true
+}

@@ -1,0 +1,18 @@
+{
+    "entry1": "value1",
+    "complex1": {
+      "key1": "123",
+      "key2": "34343"
+    },
+    "collection1": [
+      {
+        "aV1": "temp",
+        "aV2": "tttt"
+      },
+      {
+        "aV1": "asjdflkajdsf",
+        "aV2": "jdskfjsadfkjds"
+      }
+    ]
+    
+  }
