@@ -24,7 +24,7 @@ This task reads a JSON file, parses through it an set variable values based on t
 **Variable Name Prefix**
 The initial prefix of the Variable names.  This lets you specify the root prefix, so you can utilize this task multiple times for multiple files and still organize them accordingly.
 
-![input preview](images/taskSetup.png)
+![input preview](images/taskSetup.PNG)
      
 
 ## Images
