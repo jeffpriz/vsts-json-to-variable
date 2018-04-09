@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "json2variable",
     "name": "Json to Variable",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "publisher": "OneLuckiDev",
     "targets": [
         {
@@ -19,7 +19,24 @@
     "files": [
         {
             "path": "Json2Variable"
+        },
+        {
+            "path": "images/variable_icon_small.png",
+            "addressable": true
+        },
+        {
+            "path": "images/taskOutput.PNG",
+            "addressable": true
+        },
+        {
+            "path": "images/taskSetup.PNG",
+            "addressable": true
+        },
+        {
+            "path": "images/jsontext.png",
+            "addressable": true
         }
+        
     ],
     "contributions": [
         {
