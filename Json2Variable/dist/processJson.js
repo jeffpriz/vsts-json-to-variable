@@ -105,6 +105,9 @@ function ProcessSingleNode(dataQueue, thisJson, ndx, thisDataItem, keys) {
                     }
                     else {
                         vName = thisDataItem.PrefixChain + "." + keys[ndx];
+                        if (txt.startsWith('"') && txt.endsWith('"')) {
+                            txt = txt.substring(1, (txt.length - 1));
+                        }
                         console.log("Creating variable : " + vName + " | " + txt);
                         tl.setVariable(vName, txt);
                     }

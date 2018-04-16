@@ -100,8 +100,12 @@ async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:JSON,ndx
             else //this is a normal value, we should create a variable for it
             {
                 var vName:string = thisDataItem.PrefixChain + "." + keys[ndx];
-                console.log("Creating variable : " + vName + " | " + txt);
                 
+                if(txt.startsWith('"') && txt.endsWith('"'))
+                {
+                    txt = txt.substring(1,(txt.length - 1));
+                }
+                console.log("Creating variable : " + vName + " | " + txt);
                 tl.setVariable(vName, txt);
             }
         }

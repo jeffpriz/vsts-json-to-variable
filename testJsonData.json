@@ -1,8 +1,8 @@
 {
     "entry1": "value1",
     "complex1": {
-      "key1": "123",
-      "key2": "34343"
+      "key1": 123,
+      "key2": 34343
     },
     "collection1": [
       {

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var processJson = require("./processJson");
 var getFSData = require("./getFSData");
-var input_fileName = "testJsonData.json";
+var input_fileName = "vss-extension.json";
 function Run() {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
         var validInputs, fileContent, data, result, err_1;
