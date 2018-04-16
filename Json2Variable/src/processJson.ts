@@ -86,15 +86,36 @@ async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:JSON,ndx
             //queue to be processed
             else if(await isNodeArray(txt))
             {
-                var prfx = thisDataItem.PrefixChain + "." + keys[ndx];
-                for(var arx = 0; arx < thisJson[keys[ndx]].length; arx++)
+                var jsonArrayObj = parseJson(txt);
+                for(var arrayNDX = 0; arrayNDX < jsonArrayObj.length; arrayNDX++)
                 {
-                    var thisprfx = prfx + (arx + 1).toString();
-                    var arData = JSON.stringify(thisJson[keys[ndx]][arx]);
-                    tl.debug("Array info: "  + arData);
-                    dataQueue.push(new dataItem.DataItem(arData,thisprfx));
+                    var prfx = thisDataItem.PrefixChain + "." + keys[ndx];
+                    
+                    if(await isNodeComplex(JSON.stringify(jsonArrayObj[arrayNDX])))
+                    {
 
-                }
+                            var thisprfx = prfx + (arrayNDX + 1).toString();
+                            var arData = JSON.stringify(jsonArrayObj[arrayNDX]);
+                            tl.debug("Array info: "  + arData);
+                            dataQueue.push(new dataItem.DataItem(arData,thisprfx));                       
+                    
+                    }
+                    else
+                    {
+                        //doseomthing with J.
+                        
+                        
+                            var thisItem:string = jsonArrayObj[arrayNDX];
+                            var thisprfx = prfx + (arrayNDX + 1).toString();
+                            if(thisItem.startsWith('"') && thisItem.endsWith('"'))
+                            {
+                                thisItem = thisItem.substring(1,(thisItem.length - 1));
+                            }
+                            console.log("Creating variable : " + thisprfx + " | " + thisItem);
+                            tl.setVariable(thisprfx, thisItem);
+                        
+                    }
+            }
                 
             }
             else //this is a normal value, we should create a variable for it

@@ -1,4 +1,4 @@
-# vsts-json-to-variable
+# JSON to Variable
 TFS and VSTS build and release task that will read a JSON file (not JSON data from an api) and generate build and release variables to be used by other tasks in the build or release process.
 
 This gives you the ability to read JSON files available at build or release time, the files can be something located on the File system available to build or release agents, or can be something read in from the Build source code, or in the build Artifact at release time. 

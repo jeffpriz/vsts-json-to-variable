@@ -79,11 +79,11 @@ exports.ProcessKeys = ProcessKeys;
 //Process a single Json node
 function ProcessSingleNode(dataQueue, thisJson, ndx, thisDataItem, keys) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
-        var txt, prfx, prfx, arx, thisprfx, arData, vName;
+        var txt, prfx, jsonArrayObj, arrayNDX, prfx, thisprfx, arData, thisItem, thisprfx, vName;
         return tslib_1.__generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    if (!(thisJson[keys[ndx]] != undefined)) return [3 /*break*/, 4];
+                    if (!(thisJson[keys[ndx]] != undefined)) return [3 /*break*/, 9];
                     tl.debug(thisJson[keys[ndx]]);
                     txt = JSON.stringify(thisJson[keys[ndx]]);
                     return [4 /*yield*/, isNodeComplex(txt)];
@@ -91,28 +91,47 @@ function ProcessSingleNode(dataQueue, thisJson, ndx, thisDataItem, keys) {
                     if (!_a.sent()) return [3 /*break*/, 2];
                     prfx = thisDataItem.PrefixChain + "." + keys[ndx];
                     dataQueue.push(new dataItem.DataItem(txt, prfx));
-                    return [3 /*break*/, 4];
+                    return [3 /*break*/, 9];
                 case 2: return [4 /*yield*/, isNodeArray(txt)];
                 case 3:
+                    if (!_a.sent()) return [3 /*break*/, 8];
+                    jsonArrayObj = parseJson(txt);
+                    arrayNDX = 0;
+                    _a.label = 4;
+                case 4:
+                    if (!(arrayNDX < jsonArrayObj.length)) return [3 /*break*/, 7];
+                    prfx = thisDataItem.PrefixChain + "." + keys[ndx];
+                    return [4 /*yield*/, isNodeComplex(JSON.stringify(jsonArrayObj[arrayNDX]))];
+                case 5:
                     if (_a.sent()) {
-                        prfx = thisDataItem.PrefixChain + "." + keys[ndx];
-                        for (arx = 0; arx < thisJson[keys[ndx]].length; arx++) {
-                            thisprfx = prfx + (arx + 1).toString();
-                            arData = JSON.stringify(thisJson[keys[ndx]][arx]);
-                            tl.debug("Array info: " + arData);
-                            dataQueue.push(new dataItem.DataItem(arData, thisprfx));
-                        }
+                        thisprfx = prfx + (arrayNDX + 1).toString();
+                        arData = JSON.stringify(jsonArrayObj[arrayNDX]);
+                        tl.debug("Array info: " + arData);
+                        dataQueue.push(new dataItem.DataItem(arData, thisprfx));
                     }
                     else {
-                        vName = thisDataItem.PrefixChain + "." + keys[ndx];
-                        if (txt.startsWith('"') && txt.endsWith('"')) {
-                            txt = txt.substring(1, (txt.length - 1));
+                        thisItem = jsonArrayObj[arrayNDX];
+                        thisprfx = prfx + (arrayNDX + 1).toString();
+                        if (thisItem.startsWith('"') && thisItem.endsWith('"')) {
+                            thisItem = thisItem.substring(1, (thisItem.length - 1));
                         }
-                        console.log("Creating variable : " + vName + " | " + txt);
-                        tl.setVariable(vName, txt);
+                        console.log("Creating variable : " + thisprfx + " | " + thisItem);
+                        tl.setVariable(thisprfx, thisItem);
                     }
-                    _a.label = 4;
-                case 4: return [2 /*return*/];
+                    _a.label = 6;
+                case 6:
+                    arrayNDX++;
+                    return [3 /*break*/, 4];
+                case 7: return [3 /*break*/, 9];
+                case 8:
+                    vName = thisDataItem.PrefixChain + "." + keys[ndx];
+                    if (txt.startsWith('"') && txt.endsWith('"')) {
+                        txt = txt.substring(1, (txt.length - 1));
+                    }
+                    console.log("Creating variable : " + vName + " | " + txt);
+                    tl.setVariable(vName, txt);
+                    _a.label = 9;
+                case 9: return [2 /*return*/];
             }
         });
     });

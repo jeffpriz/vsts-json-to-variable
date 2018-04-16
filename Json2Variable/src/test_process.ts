@@ -8,7 +8,7 @@ import * as processJson from './processJson';
 import * as getFSData from './getFSData';
  
 
-var input_fileName = "vss-extension.json";
+var input_fileName = "testJsonData.json";
 async function Run()
 {
     console.log("Reading JSON file to generate variables for future tasks... ");
