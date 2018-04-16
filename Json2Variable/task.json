@@ -13,7 +13,7 @@
     "version": {
       "Major": "1",
       "Minor": "0", 
-      "Patch": "3"
+      "Patch": "4"
     },
     "minimumAgentVersion": "1.95.0",
     "instanceNameFormat": "JSON to Variable",
@@ -43,7 +43,7 @@
     ],
     "execution": {
       "Node": {
-        "target": "./dist/Json2Variable.js",
+        "target": "./dist/json2variable.js",
         "argumentFormat": ""
       }
     }
