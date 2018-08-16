@@ -9,10 +9,11 @@ function ParseFileDataIntoJsonObject(fileData) {
         var _this = this;
         return tslib_1.__generator(this, function (_a) {
             return [2 /*return*/, new Promise(function (resolve, reject) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var data;
+                    var data, jData;
                     return tslib_1.__generator(this, function (_a) {
                         try {
                             data = parseJson(fileData);
+                            jData = JSON.parse(fileData);
                             resolve(data);
                         }
                         catch (err) {
@@ -26,13 +27,13 @@ function ParseFileDataIntoJsonObject(fileData) {
 }
 exports.ParseFileDataIntoJsonObject = ParseFileDataIntoJsonObject;
 //Function to process through the keys in the JSON.. This will run recursivly through a queue
-function ProcessKeys(jsonData, prefix) {
+function ProcessKeys(jsonData, prefix, shouldPrefix) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
-        var _this = this;
         var dataQueue;
+        var _this = this;
         return tslib_1.__generator(this, function (_a) {
             dataQueue = [];
-            dataQueue.push(new dataItem.DataItem(jsonData, prefix));
+            dataQueue.push(new dataItem.DataItem(jsonData, prefix, shouldPrefix));
             return [2 /*return*/, new Promise(function (resolve, reject) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                     var thisDataItem, thisJson, keys, ndx, err_1;
                     return tslib_1.__generator(this, function (_a) {
@@ -52,7 +53,7 @@ function ProcessKeys(jsonData, prefix) {
                             case 2:
                                 if (!(ndx < keys.length)) return [3 /*break*/, 5];
                                 tl.debug("Key Found! " + keys[ndx]);
-                                return [4 /*yield*/, ProcessSingleNode(dataQueue, thisJson, ndx, thisDataItem, keys)];
+                                return [4 /*yield*/, ProcessSingleNode(dataQueue, thisJson, ndx, thisDataItem, keys, shouldPrefix)];
                             case 3:
                                 _a.sent();
                                 _a.label = 4;
@@ -77,22 +78,23 @@ function ProcessKeys(jsonData, prefix) {
 }
 exports.ProcessKeys = ProcessKeys;
 //Process a single Json node
-function ProcessSingleNode(dataQueue, thisJson, ndx, thisDataItem, keys) {
+function ProcessSingleNode(dataQueue, thisJson, ndx, thisDataItem, keys, shouldPrefix) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
-        var txt, prfx, jsonArrayObj, arrayNDX, prfx, thisprfx, arData, thisItem, thisprfx, vName;
+        var txt, obj, prfx, jsonArrayObj, arrayNDX, prfx, thisprfx, arData, thisItem, thisprfx, vName;
         return tslib_1.__generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     if (!(thisJson[keys[ndx]] != undefined)) return [3 /*break*/, 9];
                     tl.debug(thisJson[keys[ndx]]);
                     txt = JSON.stringify(thisJson[keys[ndx]]);
-                    return [4 /*yield*/, isNodeComplex(txt)];
+                    obj = thisJson[keys[ndx]];
+                    return [4 /*yield*/, isNodeComplex(obj)];
                 case 1:
                     if (!_a.sent()) return [3 /*break*/, 2];
                     prfx = thisDataItem.PrefixChain + "." + keys[ndx];
-                    dataQueue.push(new dataItem.DataItem(txt, prfx));
+                    dataQueue.push(new dataItem.DataItem(txt, prfx, shouldPrefix));
                     return [3 /*break*/, 9];
-                case 2: return [4 /*yield*/, isNodeArray(txt)];
+                case 2: return [4 /*yield*/, isNodeArray(obj)];
                 case 3:
                     if (!_a.sent()) return [3 /*break*/, 8];
                     jsonArrayObj = parseJson(txt);
@@ -100,14 +102,20 @@ function ProcessSingleNode(dataQueue, thisJson, ndx, thisDataItem, keys) {
                     _a.label = 4;
                 case 4:
                     if (!(arrayNDX < jsonArrayObj.length)) return [3 /*break*/, 7];
-                    prfx = thisDataItem.PrefixChain + "." + keys[ndx];
-                    return [4 /*yield*/, isNodeComplex(JSON.stringify(jsonArrayObj[arrayNDX]))];
+                    prfx = "";
+                    if (thisDataItem.IncludePrefix) {
+                        prfx = thisDataItem.PrefixChain + "." + keys[ndx];
+                    }
+                    else {
+                        prfx = thisDataItem.PrefixChain + "." + keys[ndx];
+                    }
+                    return [4 /*yield*/, isNodeComplex(jsonArrayObj[arrayNDX])];
                 case 5:
                     if (_a.sent()) {
                         thisprfx = prfx + (arrayNDX + 1).toString();
                         arData = JSON.stringify(jsonArrayObj[arrayNDX]);
                         tl.debug("Array info: " + arData);
-                        dataQueue.push(new dataItem.DataItem(arData, thisprfx));
+                        dataQueue.push(new dataItem.DataItem(arData, thisprfx, shouldPrefix));
                     }
                     else {
                         thisItem = jsonArrayObj[arrayNDX];
@@ -137,7 +145,7 @@ function ProcessSingleNode(dataQueue, thisJson, ndx, thisDataItem, keys) {
     });
 }
 //Tests to see if this item's string indicates it is an array
-function isNodeArray(nodeText) {
+function isNodeArray(thisJSONObj) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
         var _this = this;
         return tslib_1.__generator(this, function (_a) {
@@ -146,10 +154,8 @@ function isNodeArray(nodeText) {
                     return tslib_1.__generator(this, function (_a) {
                         try {
                             isComplex = false;
-                            if (nodeText.length > 1) {
-                                if (nodeText.startsWith("[") && nodeText.endsWith("]")) {
-                                    isComplex = true;
-                                }
+                            if (thisJSONObj instanceof Array) {
+                                isComplex = true;
                             }
                             resolve(isComplex);
                         }
@@ -163,19 +169,21 @@ function isNodeArray(nodeText) {
     });
 }
 //Tests to see if this items text indicates that it is a complex object
-function isNodeComplex(nodeText) {
+function isNodeComplex(thisJSONObj) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
         var _this = this;
         return tslib_1.__generator(this, function (_a) {
             return [2 /*return*/, new Promise(function (resolve, reject) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var isComplex;
+                    var typeArray, isComplex;
                     return tslib_1.__generator(this, function (_a) {
+                        typeArray = ["string", "number", "boolean"];
                         try {
                             isComplex = false;
-                            if (nodeText.length > 1) {
-                                if (nodeText.startsWith("{") && nodeText.endsWith("}")) {
-                                    isComplex = true;
-                                }
+                            if (typeArray.indexOf(typeof thisJSONObj) > -1) {
+                                isComplex = false;
+                            }
+                            else {
+                                isComplex = true;
                             }
                             resolve(isComplex);
                         }

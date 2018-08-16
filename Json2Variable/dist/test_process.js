@@ -23,7 +23,7 @@ function Run() {
                     return [4 /*yield*/, processJson.ParseFileDataIntoJsonObject(fileContent)];
                 case 3:
                     data = _a.sent();
-                    return [4 /*yield*/, processJson.ProcessKeys(fileContent, "json")];
+                    return [4 /*yield*/, processJson.ProcessKeys(fileContent, "json", true)];
                 case 4:
                     result = _a.sent();
                     return [3 /*break*/, 6];

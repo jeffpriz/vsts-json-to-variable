@@ -1,13 +1,16 @@
 
     export class DataItem
     {
-        DataText:string;
+        DataObj:any;
         PrefixChain:string;
+        IncludePrefix:boolean;
 
-        constructor(dataText:string, prefixChain:string)
+        constructor(dataText:any, prefixChain:string, includePrefix:boolean)
         {
-            this.DataText = dataText;
+            
+            this.DataObj = dataText;
             this.PrefixChain = prefixChain;
+            this.IncludePrefix = includePrefix;
         }
 
 

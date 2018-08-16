@@ -4,9 +4,11 @@ var tslib_1 = require("tslib");
 var tl = require("vsts-task-lib");
 var processJson = require("./processJson");
 var getFSData = require("./getFSData");
+var fs = require("fs-extra");
 var validInputs = false;
 var input_fileName = "";
 var input_variablePrefix = "";
+var input_shouldPrefixVariables;
 //=----------------------------------------------------------
 //=  Validate that the inputs were provided as expected
 //=----------------------------------------------------------
@@ -22,9 +24,18 @@ function validateInputs() {
         validInputs = false;
     }
     //Variable Prefix
+    try {
+        input_shouldPrefixVariables = tl.getBoolInput('shouldPrefixVariables', true);
+        tl.debug("the should prefix variables is set to " + input_shouldPrefixVariables.toString());
+    }
+    catch (ex) {
+        tl.debug("There was an error setting the value of the shouldPrefixVariables input, defaulting to true");
+        input_shouldPrefixVariables = true;
+    }
     validInputs = true;
     try {
         input_variablePrefix = tl.getInput('variablePrefix', true);
+        tl.debug("The Variable preix is set to " + input_variablePrefix);
     }
     catch (ex) {
         tl.debug("A Variable name Prefix was not supplied, defaulting to 'json'");
@@ -34,7 +45,7 @@ function validateInputs() {
 ///Run function to handle the async running process of the task
 function Run() {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
-        var fileContent, data, result, err_1;
+        var fileContent, content, data, jData, result, err_1;
         return tslib_1.__generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -48,12 +59,14 @@ function Run() {
                     return [4 /*yield*/, getFSData.OpenFile(input_fileName)];
                 case 2:
                     fileContent = _a.sent();
+                    content = fs.readFileSync(input_fileName, { encoding: 'utf8' });
                     tl.debug("File Contents: ");
                     tl.debug(fileContent);
                     return [4 /*yield*/, processJson.ParseFileDataIntoJsonObject(fileContent)];
                 case 3:
                     data = _a.sent();
-                    return [4 /*yield*/, processJson.ProcessKeys(fileContent, input_variablePrefix)];
+                    jData = JSON.parse(fileContent);
+                    return [4 /*yield*/, processJson.ProcessKeys(fileContent, input_variablePrefix, input_shouldPrefixVariables)];
                 case 4:
                     result = _a.sent();
                     return [3 /*break*/, 6];

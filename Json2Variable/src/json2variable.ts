@@ -3,10 +3,12 @@ import * as parseJson from 'parse-json';
 import * as pify from 'pify';
 import * as processJson from './processJson';
 import * as getFSData from './getFSData';
+import fs = require('fs-extra');
 
 var validInputs:boolean = false;
 var input_fileName:string = "";
 var input_variablePrefix:string="";
+var input_shouldPrefixVariables:boolean;
 
 
 //=----------------------------------------------------------
@@ -30,12 +32,23 @@ function validateInputs()
     }
 
     //Variable Prefix
+
+    try
+    {
+        input_shouldPrefixVariables = tl.getBoolInput('shouldPrefixVariables', true);
+        tl.debug("the should prefix variables is set to " + input_shouldPrefixVariables.toString());
+    }
+    catch(ex)
+    {
+        tl.debug("There was an error setting the value of the shouldPrefixVariables input, defaulting to true");
+        input_shouldPrefixVariables = true;
+    }
     
 
     validInputs = true;
     try {
         input_variablePrefix = tl.getInput('variablePrefix',true);
-        
+        tl.debug("The Variable preix is set to " + input_variablePrefix);
 
     }
     catch(ex)
@@ -61,13 +74,16 @@ async function Run()
         if(validInputs)
         {
             fileContent = await getFSData.OpenFile(input_fileName);
+            var content = fs.readFileSync(input_fileName, { encoding: 'utf8' });
             tl.debug("File Contents: ")
             tl.debug(fileContent);
+            
 
             //            var data:JSON = parseJson(fileContent);
             
-            var data:JSON = await processJson.ParseFileDataIntoJsonObject(fileContent);
-            var result:boolean =  await processJson.ProcessKeys(fileContent, input_variablePrefix);
+            var data:JSON = await processJson.ParseFileDataIntoJsonObject(fileContent);            
+            var jData = JSON.parse(fileContent);
+            var result:boolean =  await processJson.ProcessKeys(content, input_variablePrefix, input_shouldPrefixVariables);
         
         }
         else{

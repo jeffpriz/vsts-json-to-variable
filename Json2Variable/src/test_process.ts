@@ -25,7 +25,7 @@ async function Run()
             //            var data:JSON = parseJson(fileContent);
             
             var data:JSON = await processJson.ParseFileDataIntoJsonObject(fileContent);
-            var result:boolean =  await processJson.ProcessKeys(fileContent,"json");
+            var result:boolean =  await processJson.ProcessKeys(fileContent,"json", true);
         }
         else{
             console.log("fail");
