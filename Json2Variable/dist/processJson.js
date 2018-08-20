@@ -35,41 +35,32 @@ function ProcessKeys(jsonData, prefix, shouldPrefix) {
             dataQueue = [];
             dataQueue.push(new dataItem.DataItem(jsonData, prefix, shouldPrefix));
             return [2 /*return*/, new Promise(function (resolve, reject) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var thisDataItem, thisJson, keys, ndx, err_1;
+                    var thisDataItem, thisJson, err_1;
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
-                                if (!(dataQueue.length > 0)) return [3 /*break*/, 8];
+                                if (!(dataQueue.length > 0)) return [3 /*break*/, 5];
                                 thisDataItem = dataQueue.pop();
-                                if (!(thisDataItem != undefined)) return [3 /*break*/, 7];
-                                tl.debug("Popped: " + thisDataItem.DataText + " | " + thisDataItem.PrefixChain);
+                                if (!(thisDataItem != undefined)) return [3 /*break*/, 4];
+                                tl.debug("Popped: " + thisDataItem.DataObj.toString() + " | " + thisDataItem.PrefixChain);
                                 _a.label = 1;
                             case 1:
-                                _a.trys.push([1, 6, , 7]);
-                                thisJson = parseJson(thisDataItem.DataText);
-                                keys = Object.keys(thisJson);
-                                ndx = 0;
-                                _a.label = 2;
+                                _a.trys.push([1, 3, , 4]);
+                                thisJson = thisDataItem.DataObj;
+                                //  tl.debug("Key Found! " + keys[ndx]);
+                                return [4 /*yield*/, ProcessSingleNode(dataQueue, thisJson, 0, thisDataItem, [], shouldPrefix)];
                             case 2:
-                                if (!(ndx < keys.length)) return [3 /*break*/, 5];
-                                tl.debug("Key Found! " + keys[ndx]);
-                                return [4 /*yield*/, ProcessSingleNode(dataQueue, thisJson, ndx, thisDataItem, keys, shouldPrefix)];
-                            case 3:
+                                //  tl.debug("Key Found! " + keys[ndx]);
                                 _a.sent();
-                                _a.label = 4;
-                            case 4:
-                                ndx++;
-                                return [3 /*break*/, 2];
-                            case 5:
                                 resolve(true);
-                                return [3 /*break*/, 7];
-                            case 6:
+                                return [3 /*break*/, 4];
+                            case 3:
                                 err_1 = _a.sent();
                                 tl.debug(err_1);
                                 reject(err_1);
-                                return [3 /*break*/, 7];
-                            case 7: return [3 /*break*/, 0];
-                            case 8: return [2 /*return*/];
+                                return [3 /*break*/, 4];
+                            case 4: return [3 /*break*/, 0];
+                            case 5: return [2 /*return*/];
                         }
                     });
                 }); })];
@@ -80,66 +71,67 @@ exports.ProcessKeys = ProcessKeys;
 //Process a single Json node
 function ProcessSingleNode(dataQueue, thisJson, ndx, thisDataItem, keys, shouldPrefix) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
-        var txt, obj, prfx, jsonArrayObj, arrayNDX, prfx, thisprfx, arData, thisItem, thisprfx, vName;
+        var arrayNDX, prfx, key, subObj, prfx, vName;
         return tslib_1.__generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    if (!(thisJson[keys[ndx]] != undefined)) return [3 /*break*/, 9];
-                    tl.debug(thisJson[keys[ndx]]);
-                    txt = JSON.stringify(thisJson[keys[ndx]]);
-                    obj = thisJson[keys[ndx]];
-                    return [4 /*yield*/, isNodeComplex(obj)];
+                    if (!(thisJson != undefined)) return [3 /*break*/, 4];
+                    return [4 /*yield*/, isNodeArray(thisJson)];
                 case 1:
                     if (!_a.sent()) return [3 /*break*/, 2];
-                    prfx = thisDataItem.PrefixChain + "." + keys[ndx];
-                    dataQueue.push(new dataItem.DataItem(txt, prfx, shouldPrefix));
-                    return [3 /*break*/, 9];
-                case 2: return [4 /*yield*/, isNodeArray(obj)];
-                case 3:
-                    if (!_a.sent()) return [3 /*break*/, 8];
-                    jsonArrayObj = parseJson(txt);
-                    arrayNDX = 0;
-                    _a.label = 4;
-                case 4:
-                    if (!(arrayNDX < jsonArrayObj.length)) return [3 /*break*/, 7];
-                    prfx = "";
-                    if (thisDataItem.IncludePrefix) {
-                        prfx = thisDataItem.PrefixChain + "." + keys[ndx];
+                    //var jsonArrayObj = parseJson(txt);
+                    for (arrayNDX = 0; arrayNDX < thisJson.length; arrayNDX++) {
+                        prfx = "";
+                        prfx = thisDataItem.PrefixChain + arrayNDX.toString();
+                        dataQueue.push(new dataItem.DataItem(thisJson[arrayNDX], prfx, shouldPrefix));
+                        // if(await isNodeComplex(thisJson[arrayNDX]))
+                        // {
+                        //                            var thisprfx = prfx + (arrayNDX + 1).toString();
+                        //                           var arData = JSON.stringify(thisJson[arrayNDX]);
+                        //                           tl.debug("Array info: "  + arData);
+                        //                           dataQueue.push(new dataItem.DataItem(arData,thisprfx, shouldPrefix));                       
+                        //                   }
+                        //                   else
+                        //                   {
+                        //doseomthing with J.
+                        //                         var thisItem:string = thisJson[arrayNDX];
+                        //                        var thisprfx = prfx + (arrayNDX + 1).toString();
+                        //                        if(thisItem.startsWith('"') && thisItem.endsWith('"'))
+                        //                        {
+                        //                            thisItem = thisItem.substring(1,(thisItem.length - 1));
+                        //                        }
+                        //                       console.log("Creating variable : " + thisprfx + " | " + thisItem);
+                        //                       tl.setVariable(thisprfx, thisItem);
+                        //                }
                     }
-                    else {
-                        prfx = thisDataItem.PrefixChain + "." + keys[ndx];
-                    }
-                    return [4 /*yield*/, isNodeComplex(jsonArrayObj[arrayNDX])];
-                case 5:
-                    if (_a.sent()) {
-                        thisprfx = prfx + (arrayNDX + 1).toString();
-                        arData = JSON.stringify(jsonArrayObj[arrayNDX]);
-                        tl.debug("Array info: " + arData);
-                        dataQueue.push(new dataItem.DataItem(arData, thisprfx, shouldPrefix));
-                    }
-                    else {
-                        thisItem = jsonArrayObj[arrayNDX];
-                        thisprfx = prfx + (arrayNDX + 1).toString();
-                        if (thisItem.startsWith('"') && thisItem.endsWith('"')) {
-                            thisItem = thisItem.substring(1, (thisItem.length - 1));
-                        }
-                        console.log("Creating variable : " + thisprfx + " | " + thisItem);
-                        tl.setVariable(thisprfx, thisItem);
-                    }
-                    _a.label = 6;
-                case 6:
-                    arrayNDX++;
                     return [3 /*break*/, 4];
-                case 7: return [3 /*break*/, 9];
-                case 8:
-                    vName = thisDataItem.PrefixChain + "." + keys[ndx];
-                    if (txt.startsWith('"') && txt.endsWith('"')) {
-                        txt = txt.substring(1, (txt.length - 1));
+                case 2: return [4 /*yield*/, isNodeComplex(thisJson)];
+                case 3:
+                    if (_a.sent()) {
+                        for (key in thisJson) {
+                            if (thisJson.hasOwnProperty(key)) {
+                                subObj = thisJson[key];
+                                prfx = thisDataItem.PrefixChain + "." + key;
+                                dataQueue.push(new dataItem.DataItem(subObj, prfx, shouldPrefix));
+                            }
+                        }
+                        //var prfx = thisDataItem.PrefixChain + "." + keys[ndx];
+                        //dataQueue.push(new dataItem.DataItem(txt,prfx, shouldPrefix));
                     }
-                    console.log("Creating variable : " + vName + " | " + txt);
-                    tl.setVariable(vName, txt);
-                    _a.label = 9;
-                case 9: return [2 /*return*/];
+                    //Else if this is not a simple value but an array, we need to push each item on to the 
+                    //queue to be processed
+                    else //this is a normal value, we should create a variable for it
+                     {
+                        vName = thisDataItem.PrefixChain;
+                        //if(txt.startsWith('"') && txt.endsWith('"'))
+                        {
+                            //    txt = txt.substring(1,(txt.length - 1));
+                        }
+                        //console.log("Creating variable : " + vName + " | " + txt);
+                        tl.setVariable(vName, thisJson);
+                    }
+                    _a.label = 4;
+                case 4: return [2 /*return*/];
             }
         });
     });

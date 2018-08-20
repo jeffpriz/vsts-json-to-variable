@@ -66,7 +66,7 @@ function Run() {
                 case 3:
                     data = _a.sent();
                     jData = JSON.parse(fileContent);
-                    return [4 /*yield*/, processJson.ProcessKeys(fileContent, input_variablePrefix, input_shouldPrefixVariables)];
+                    return [4 /*yield*/, processJson.ProcessKeys(content, input_variablePrefix, input_shouldPrefixVariables)];
                 case 4:
                     result = _a.sent();
                     return [3 /*break*/, 6];

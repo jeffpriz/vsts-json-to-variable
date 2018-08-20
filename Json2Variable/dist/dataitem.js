@@ -2,8 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var DataItem = /** @class */ (function () {
     function DataItem(dataText, prefixChain, includePrefix) {
-        this.IncludePrefix = true;
-        this.DataText = dataText;
+        this.DataObj = dataText;
         this.PrefixChain = prefixChain;
         this.IncludePrefix = includePrefix;
     }
