@@ -33,7 +33,10 @@ function ProcessKeys(jsonData, prefix, shouldPrefix) {
         var _this = this;
         return tslib_1.__generator(this, function (_a) {
             dataQueue = [];
-            dataQueue.push(new dataItem.DataItem(jsonData, prefix, shouldPrefix));
+            if (!shouldPrefix) {
+                prefix = "";
+            }
+            dataQueue.push(new dataItem.DataItem(jsonData, prefix));
             return [2 /*return*/, new Promise(function (resolve, reject) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                     var thisDataItem, thisJson, err_1;
                     return tslib_1.__generator(this, function (_a) {
@@ -47,10 +50,8 @@ function ProcessKeys(jsonData, prefix, shouldPrefix) {
                             case 1:
                                 _a.trys.push([1, 3, , 4]);
                                 thisJson = thisDataItem.DataObj;
-                                //  tl.debug("Key Found! " + keys[ndx]);
-                                return [4 /*yield*/, ProcessSingleNode(dataQueue, thisJson, 0, thisDataItem, [], shouldPrefix)];
+                                return [4 /*yield*/, ProcessSingleNode(dataQueue, thisJson, thisDataItem, shouldPrefix)];
                             case 2:
-                                //  tl.debug("Key Found! " + keys[ndx]);
                                 _a.sent();
                                 resolve(true);
                                 return [3 /*break*/, 4];
@@ -69,7 +70,7 @@ function ProcessKeys(jsonData, prefix, shouldPrefix) {
 }
 exports.ProcessKeys = ProcessKeys;
 //Process a single Json node
-function ProcessSingleNode(dataQueue, thisJson, ndx, thisDataItem, keys, shouldPrefix) {
+function ProcessSingleNode(dataQueue, thisJson, thisDataItem, shouldPrefix) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
         var arrayNDX, prfx, key, subObj, prfx, vName;
         return tslib_1.__generator(this, function (_a) {
@@ -79,30 +80,10 @@ function ProcessSingleNode(dataQueue, thisJson, ndx, thisDataItem, keys, shouldP
                     return [4 /*yield*/, isNodeArray(thisJson)];
                 case 1:
                     if (!_a.sent()) return [3 /*break*/, 2];
-                    //var jsonArrayObj = parseJson(txt);
                     for (arrayNDX = 0; arrayNDX < thisJson.length; arrayNDX++) {
                         prfx = "";
                         prfx = thisDataItem.PrefixChain + (arrayNDX + 1).toString();
-                        dataQueue.push(new dataItem.DataItem(thisJson[arrayNDX], prfx, shouldPrefix));
-                        // if(await isNodeComplex(thisJson[arrayNDX]))
-                        // {
-                        //                            var thisprfx = prfx + (arrayNDX + 1).toString();
-                        //                           var arData = JSON.stringify(thisJson[arrayNDX]);
-                        //                           tl.debug("Array info: "  + arData);
-                        //                           dataQueue.push(new dataItem.DataItem(arData,thisprfx, shouldPrefix));                       
-                        //                   }
-                        //                   else
-                        //                   {
-                        //doseomthing with J.
-                        //                         var thisItem:string = thisJson[arrayNDX];
-                        //                        var thisprfx = prfx + (arrayNDX + 1).toString();
-                        //                        if(thisItem.startsWith('"') && thisItem.endsWith('"'))
-                        //                        {
-                        //                            thisItem = thisItem.substring(1,(thisItem.length - 1));
-                        //                        }
-                        //                       console.log("Creating variable : " + thisprfx + " | " + thisItem);
-                        //                       tl.setVariable(thisprfx, thisItem);
-                        //                }
+                        dataQueue.push(new dataItem.DataItem(thisJson[arrayNDX], prfx));
                     }
                     return [3 /*break*/, 4];
                 case 2: return [4 /*yield*/, isNodeComplex(thisJson)];
@@ -111,23 +92,22 @@ function ProcessSingleNode(dataQueue, thisJson, ndx, thisDataItem, keys, shouldP
                         for (key in thisJson) {
                             if (thisJson.hasOwnProperty(key)) {
                                 subObj = thisJson[key];
-                                prfx = thisDataItem.PrefixChain + "." + key;
-                                dataQueue.push(new dataItem.DataItem(subObj, prfx, shouldPrefix));
+                                if (shouldPrefix || thisDataItem.PrefixChain.length > 0) {
+                                    prfx = thisDataItem.PrefixChain + "." + key;
+                                }
+                                else {
+                                    prfx = key;
+                                }
+                                dataQueue.push(new dataItem.DataItem(subObj, prfx));
                             }
                         }
-                        //var prfx = thisDataItem.PrefixChain + "." + keys[ndx];
-                        //dataQueue.push(new dataItem.DataItem(txt,prfx, shouldPrefix));
                     }
                     //Else if this is not a simple value but an array, we need to push each item on to the 
                     //queue to be processed
                     else //this is a normal value, we should create a variable for it
                      {
                         vName = thisDataItem.PrefixChain;
-                        //if(txt.startsWith('"') && txt.endsWith('"'))
-                        {
-                            //    txt = txt.substring(1,(txt.length - 1));
-                        }
-                        //console.log("Creating variable : " + vName + " | " + txt);
+                        console.log("Creating variable : " + vName + " | " + thisJson);
                         tl.setVariable(vName, thisJson);
                     }
                     _a.label = 4;

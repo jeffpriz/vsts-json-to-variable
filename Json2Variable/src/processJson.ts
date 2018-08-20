@@ -26,7 +26,11 @@ export async function ParseFileDataIntoJsonObject(fileData:string):Promise<JSON>
 export async function ProcessKeys(jsonData:any, prefix:string, shouldPrefix:boolean):Promise<boolean>
 {    
     var dataQueue:dataItem.DataItem[] = [];
-    dataQueue.push(new dataItem.DataItem(jsonData ,prefix, shouldPrefix)); 
+    if(!shouldPrefix)
+    {
+        prefix = "";
+    }
+    dataQueue.push(new dataItem.DataItem(jsonData ,prefix)); 
     
     return new Promise<boolean>(async (resolve, reject) => {
 
@@ -39,20 +43,11 @@ export async function ProcessKeys(jsonData:any, prefix:string, shouldPrefix:bool
             {
             tl.debug("Popped: " + thisDataItem.DataObj.toString() + " | " + thisDataItem.PrefixChain);
 
-            try{
-
-                var thisJson:any = thisDataItem.DataObj;
-                //var thisJson:JSON = parseJson(thisDataItem.DataText);
-                //var keys:string[] = Object.keys(thisJson);
-
-                //For Each node in the JSON
-                //for(var ndx = 0; ndx < keys.length; ndx++)
-                {
-                  //  tl.debug("Key Found! " + keys[ndx]);
-                    await ProcessSingleNode(dataQueue, thisJson, 0, thisDataItem, [], shouldPrefix);
-                    
-
-                }
+            try
+            {
+                var thisJson:any = thisDataItem.DataObj;                  
+                await ProcessSingleNode(dataQueue, thisJson,  thisDataItem,  shouldPrefix);
+                   
                 resolve(true);
             }
             catch(err)
@@ -69,51 +64,23 @@ export async function ProcessKeys(jsonData:any, prefix:string, shouldPrefix:bool
 
 
 //Process a single Json node
-async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:any,ndx:number, thisDataItem:dataItem.DataItem,keys:string[], shouldPrefix:boolean)
+async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:any, thisDataItem:dataItem.DataItem, shouldPrefix:boolean)
 {
             
         if(thisJson != undefined)
         {
-            //tl.debug(thisJson[keys[ndx]]);
-           // var txt:string = JSON.stringify(thisJson[keys[ndx]]);
-
-            //var obj = thisJson[keys[ndx]];
-            //If this is not a simple value, but a complex JSON object, we need to push it
+            //If this is not a simple value, but a complex JSON object or an array, we need to push it
             //on to the queue to be processed
 
             if(await isNodeArray(thisJson))
             {
-                //var jsonArrayObj = parseJson(txt);
+                
                 for(var arrayNDX = 0; arrayNDX < thisJson.length; arrayNDX++)
                 {
                     var prfx:string = "";
                     prfx = thisDataItem.PrefixChain + (arrayNDX + 1).toString();
-                    dataQueue.push(new dataItem.DataItem(thisJson[arrayNDX],prfx,shouldPrefix))
+                    dataQueue.push(new dataItem.DataItem(thisJson[arrayNDX],prfx))
                     
-                   // if(await isNodeComplex(thisJson[arrayNDX]))
-                   // {
-
-//                            var thisprfx = prfx + (arrayNDX + 1).toString();
- //                           var arData = JSON.stringify(thisJson[arrayNDX]);
- //                           tl.debug("Array info: "  + arData);
- //                           dataQueue.push(new dataItem.DataItem(arData,thisprfx, shouldPrefix));                       
-                    
- //                   }
- //                   else
- //                   {
-                        //doseomthing with J.
-                        
-                        
-   //                         var thisItem:string = thisJson[arrayNDX];
-    //                        var thisprfx = prfx + (arrayNDX + 1).toString();
-    //                        if(thisItem.startsWith('"') && thisItem.endsWith('"'))
-    //                        {
-    //                            thisItem = thisItem.substring(1,(thisItem.length - 1));
-    //                        }
-     //                       console.log("Creating variable : " + thisprfx + " | " + thisItem);
-     //                       tl.setVariable(thisprfx, thisItem);
-                        
-    //                }
                 }
                 
             }
@@ -124,13 +91,19 @@ async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:any,ndx:
                     if(thisJson.hasOwnProperty(key))
                     {
                         var subObj = thisJson[key];
-                        //var prfx = thisDataItem.PrefixChain + "." + keys[ndx];
-                        var prfx = thisDataItem.PrefixChain + "." + key;
-                        dataQueue.push(new dataItem.DataItem(subObj,prfx, shouldPrefix));
+                        var prfx:string;
+                        if(shouldPrefix || thisDataItem.PrefixChain.length > 0)
+                        {
+                            prfx = thisDataItem.PrefixChain + "." + key;
+                        }
+                        else
+                        {
+                            prfx = key;
+                        }
+
+                        dataQueue.push(new dataItem.DataItem(subObj,prfx));
                     }
                 }
-                //var prfx = thisDataItem.PrefixChain + "." + keys[ndx];
-                //dataQueue.push(new dataItem.DataItem(txt,prfx, shouldPrefix));
             }
             //Else if this is not a simple value but an array, we need to push each item on to the 
             //queue to be processed
@@ -140,11 +113,8 @@ async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:any,ndx:
                 //var vName:string = thisDataItem.PrefixChain + "." + keys[ndx];
                 var vName:string = thisDataItem.PrefixChain;
                 
-                //if(txt.startsWith('"') && txt.endsWith('"'))
-                {
-                //    txt = txt.substring(1,(txt.length - 1));
-                }
-                //console.log("Creating variable : " + vName + " | " + txt);
+
+                console.log("Creating variable : " + vName + " | " + thisJson);
                 tl.setVariable(vName,thisJson);
             }
         }

@@ -1,10 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var DataItem = /** @class */ (function () {
-    function DataItem(dataText, prefixChain, includePrefix) {
+    function DataItem(dataText, prefixChain) {
         this.DataObj = dataText;
         this.PrefixChain = prefixChain;
-        this.IncludePrefix = includePrefix;
     }
     return DataItem;
 }());

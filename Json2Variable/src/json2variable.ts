@@ -73,17 +73,13 @@ async function Run()
 
         if(validInputs)
         {
-            fileContent = await getFSData.OpenFile(input_fileName);
-            var content = fs.readFileSync(input_fileName, { encoding: 'utf8' });
-            tl.debug("File Contents: ")
-            tl.debug(fileContent);
-            
 
-            //            var data:JSON = parseJson(fileContent);
-            
-            var data:JSON = await processJson.ParseFileDataIntoJsonObject(fileContent);            
-            var jData = JSON.parse(fileContent);
-            var result:boolean =  await processJson.ProcessKeys(content, input_variablePrefix, input_shouldPrefixVariables);
+            var content = fs.readFileSync(input_fileName, { encoding: 'utf8' });
+
+            tl.debug("File Contents: ")
+            tl.debug(content);
+            var contentObj:any = JSON.parse(content);
+            var result:boolean =  await processJson.ProcessKeys(contentObj, input_variablePrefix, input_shouldPrefixVariables);
         
         }
         else{
