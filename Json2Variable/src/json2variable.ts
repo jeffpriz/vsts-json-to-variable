@@ -1,8 +1,5 @@
 import * as tl from 'vsts-task-lib';
-import * as parseJson from 'parse-json';
-import * as pify from 'pify';
 import * as processJson from './processJson';
-import * as getFSData from './getFSData';
 import fs = require('fs-extra');
 
 var validInputs:boolean = false;

@@ -1,26 +1,7 @@
-import * as parseJson from 'parse-json';
 import * as tl from 'vsts-task-lib';
 import * as dataItem from './dataitem';
 import { DataItem } from './dataitem';
 
-
-export async function ParseFileDataIntoJsonObject(fileData:string):Promise<JSON>
-{
-    return new Promise<JSON>(async (resolve,reject) => 
-    { 
-        try {
-            var data:JSON = parseJson(fileData);
-            var jData = JSON.parse(fileData);
-
-            resolve(data);
-        }
-        catch(err)
-        {
-            reject(err);
-        }
-
-    });
-}
 
 //Function to process through the keys in the JSON.. This will run recursivly through a queue
 export async function ProcessKeys(jsonData:any, prefix:string, shouldPrefix:boolean):Promise<boolean>
@@ -71,8 +52,33 @@ async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:any, thi
         {
             //If this is not a simple value, but a complex JSON object or an array, we need to push it
             //on to the queue to be processed
+            var isArray:boolean = await processArrayNode(dataQueue, thisJson, thisDataItem, shouldPrefix);
+            var isComplexObject:boolean = false;
+            if(!isArray)
+            {
+                isComplexObject = await processComplexObject(dataQueue, thisJson, thisDataItem, shouldPrefix);
+            }
+           
+            //Else if this is not a simple value but an array, we need to push each item on to the 
+            //queue to be processed            
+            if(!(isArray || isComplexObject))
+            {
+                var vName:string = thisDataItem.PrefixChain;
+                console.log("Creating variable : " + vName + " | " + thisJson);
+                tl.setVariable(vName,thisJson);
+            }
+            
+        }
+}
 
-            if(await isNodeArray(thisJson))
+
+//Checks if the current JSON Node is an Array, and will loop through and process that array.  Pushing objects on the queue to be recursed through
+async function processArrayNode(dataQueue:dataItem.DataItem[],thisJson:any, thisDataItem:dataItem.DataItem, shouldPrefix:boolean):Promise<boolean>
+{
+    return new Promise<boolean>(async (resolve, reject) => {
+        try{
+            var isArray:boolean = await isNodeArray(thisJson);
+            if(isArray)
             {
                 
                 for(var arrayNDX = 0; arrayNDX < thisJson.length; arrayNDX++)
@@ -84,7 +90,24 @@ async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:any, thi
                 }
                 
             }
-            else if(await isNodeComplex(thisJson))
+            resolve(isArray);
+        }
+        catch(err)
+        {
+            reject(err);
+        }
+    });
+}
+
+
+//Checks to see if the current JSON Node is a complex JSON Object (not a simple string, bool, or number) and will go through each key in the object and push items
+//on to the Queue to be recursed through
+async function processComplexObject(dataQueue:dataItem.DataItem[],thisJson:any, thisDataItem:dataItem.DataItem, shouldPrefix:boolean):Promise<boolean>
+{
+    return new Promise<boolean>(async (resolve, reject) => {
+        try{
+            var isComplexObject:boolean = await isNodeComplex(thisJson);
+            if(isComplexObject)
             {
                 for(var key in thisJson)
                 {
@@ -105,19 +128,13 @@ async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:any, thi
                     }
                 }
             }
-            //Else if this is not a simple value but an array, we need to push each item on to the 
-            //queue to be processed
-            
-            else //this is a normal value, we should create a variable for it
-            {
-                //var vName:string = thisDataItem.PrefixChain + "." + keys[ndx];
-                var vName:string = thisDataItem.PrefixChain;
-                
-
-                console.log("Creating variable : " + vName + " | " + thisJson);
-                tl.setVariable(vName,thisJson);
-            }
+            resolve(isComplexObject);
         }
+        catch(err)
+        {
+            reject(err);
+        }
+    });
 }
 
 //Tests to see if this item's string indicates it is an array
