@@ -1,42 +1,41 @@
 {
-    "name": "vsts-release-web-test",
-    "version": "1.0.0",
-    "description": "This TFS & VSTS Release task can be used to create build variables from a JSON file ",
-    "main": "dist/json2variable.js",
-    "scripts": {
-      "build": "tsc",
-      "compile": "npm install && npm build",
-      "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "keywords": [
-      "TFS",
-      "VSTS",
-      "Release"
-    ],
-    "author": "Jeff Przylucki",
-    "license": "GPL-3.0",
-    "repository": {
-      "url": "https://github.com/jeffpriz/vsts-json-to-variable"
-    },
-    "devDependencies": {    
-      "typescript": "^2.4.2",
-      "@types/node": "^6.0.31"
-      
-    },
-    "files": [
-      "dist/",
-      "src/",
-      "config/"
-    ],
-    "dependencies": {
-      "vsts-task-lib": "^2.0.7",
-      "reflect-metadata": "^0.1.10",
-      "tslib": "^1.7.1",
-      "node-fetch": "2.0.0",
-      "graceful-fs":"^4.1.11",
-      "parse-json":"^4.0.0",
-      "pify":"^3.0.0",
-      "strip-bom":"^3.0.0"  
-    }
+  "name": "vsts-release-web-test",
+  "version": "1.0.0",
+  "description": "This TFS & VSTS Release task can be used to create build variables from a JSON file ",
+  "main": "dist/json2variable.js",
+  "scripts": {
+    "build": "tsc",
+    "compile": "npm install && npm build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "TFS",
+    "VSTS",
+    "Release"
+  ],
+  "author": "Jeff Przylucki",
+  "license": "GPL-3.0",
+  "repository": {
+    "url": "https://github.com/jeffpriz/vsts-json-to-variable"
+  },
+  "devDependencies": {
+    "typescript": "^2.4.2",
+    "@types/node": "^6.0.31"
+  },
+  "files": [
+    "dist/",
+    "src/",
+    "config/"
+  ],
+  "dependencies": {
+    "vsts-task-lib": "^2.0.7",
+    "reflect-metadata": "^0.1.10",
+    "tslib": "^1.7.1",
+    "node-fetch": "2.0.0",
+    "graceful-fs": "^4.1.11",
+    "parse-json": "^4.0.0",
+    "pify": "^3.0.0",
+    "fs-extra": "7.0.0",
+    "strip-bom": "^3.0.0"
   }
-  
+}

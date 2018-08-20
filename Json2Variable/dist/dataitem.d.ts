@@ -1,5 +1,5 @@
 export declare class DataItem {
-    DataText: string;
+    DataObj: any;
     PrefixChain: string;
-    constructor(dataText: string, prefixChain: string);
+    constructor(dataText: any, prefixChain: string);
 }

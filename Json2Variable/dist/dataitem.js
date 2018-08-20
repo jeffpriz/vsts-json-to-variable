@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var DataItem = /** @class */ (function () {
     function DataItem(dataText, prefixChain) {
-        this.DataText = dataText;
+        this.DataObj = dataText;
         this.PrefixChain = prefixChain;
     }
     return DataItem;

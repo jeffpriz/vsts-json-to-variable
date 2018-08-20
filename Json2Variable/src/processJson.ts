@@ -10,6 +10,7 @@ export async function ParseFileDataIntoJsonObject(fileData:string):Promise<JSON>
     { 
         try {
             var data:JSON = parseJson(fileData);
+            var jData = JSON.parse(fileData);
 
             resolve(data);
         }
@@ -22,9 +23,13 @@ export async function ParseFileDataIntoJsonObject(fileData:string):Promise<JSON>
 }
 
 //Function to process through the keys in the JSON.. This will run recursivly through a queue
-export async function ProcessKeys(jsonData:string, prefix:string):Promise<boolean>
+export async function ProcessKeys(jsonData:any, prefix:string, shouldPrefix:boolean):Promise<boolean>
 {    
     var dataQueue:dataItem.DataItem[] = [];
+    if(!shouldPrefix)
+    {
+        prefix = "";
+    }
     dataQueue.push(new dataItem.DataItem(jsonData ,prefix)); 
     
     return new Promise<boolean>(async (resolve, reject) => {
@@ -36,21 +41,13 @@ export async function ProcessKeys(jsonData:string, prefix:string):Promise<boolea
             var thisDataItem:dataItem.DataItem = dataQueue.pop() as dataItem.DataItem;
             if(thisDataItem != undefined)
             {
-            tl.debug("Popped: " + thisDataItem.DataText + " | " + thisDataItem.PrefixChain);
+            tl.debug("Popped: " + thisDataItem.DataObj.toString() + " | " + thisDataItem.PrefixChain);
 
-            try{
-
-                var thisJson:JSON = parseJson(thisDataItem.DataText);
-                var keys:string[] = Object.keys(thisJson);
-
-                //For Each node in the JSON
-                for(var ndx = 0; ndx < keys.length; ndx++)
-                {
-                    tl.debug("Key Found! " + keys[ndx]);
-                    await ProcessSingleNode(dataQueue, thisJson, ndx, thisDataItem, keys);
-                    
-
-                }
+            try
+            {
+                var thisJson:any = thisDataItem.DataObj;                  
+                await ProcessSingleNode(dataQueue, thisJson,  thisDataItem,  shouldPrefix);
+                   
                 resolve(true);
             }
             catch(err)
@@ -67,86 +64,74 @@ export async function ProcessKeys(jsonData:string, prefix:string):Promise<boolea
 
 
 //Process a single Json node
-async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:JSON,ndx:number, thisDataItem:dataItem.DataItem,keys:string[])
+async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:any, thisDataItem:dataItem.DataItem, shouldPrefix:boolean)
 {
             
-        if(thisJson[keys[ndx]] != undefined)
+        if(thisJson != undefined)
         {
-            tl.debug(thisJson[keys[ndx]]);
-            var txt:string = JSON.stringify(thisJson[keys[ndx]]);
-
-            //If this is not a simple value, but a complex JSON object, we need to push it
+            //If this is not a simple value, but a complex JSON object or an array, we need to push it
             //on to the queue to be processed
-            if(await isNodeComplex(txt))
+
+            if(await isNodeArray(thisJson))
             {
-                var prfx = thisDataItem.PrefixChain + "." + keys[ndx];
-                dataQueue.push(new dataItem.DataItem(txt,prfx));
+                
+                for(var arrayNDX = 0; arrayNDX < thisJson.length; arrayNDX++)
+                {
+                    var prfx:string = "";
+                    prfx = thisDataItem.PrefixChain + (arrayNDX + 1).toString();
+                    dataQueue.push(new dataItem.DataItem(thisJson[arrayNDX],prfx))
+                    
+                }
+                
+            }
+            else if(await isNodeComplex(thisJson))
+            {
+                for(var key in thisJson)
+                {
+                    if(thisJson.hasOwnProperty(key))
+                    {
+                        var subObj = thisJson[key];
+                        var prfx:string;
+                        if(shouldPrefix || thisDataItem.PrefixChain.length > 0)
+                        {
+                            prfx = thisDataItem.PrefixChain + "." + key;
+                        }
+                        else
+                        {
+                            prfx = key;
+                        }
+
+                        dataQueue.push(new dataItem.DataItem(subObj,prfx));
+                    }
+                }
             }
             //Else if this is not a simple value but an array, we need to push each item on to the 
             //queue to be processed
-            else if(await isNodeArray(txt))
-            {
-                var jsonArrayObj = parseJson(txt);
-                for(var arrayNDX = 0; arrayNDX < jsonArrayObj.length; arrayNDX++)
-                {
-                    var prfx = thisDataItem.PrefixChain + "." + keys[ndx];
-                    
-                    if(await isNodeComplex(JSON.stringify(jsonArrayObj[arrayNDX])))
-                    {
-
-                            var thisprfx = prfx + (arrayNDX + 1).toString();
-                            var arData = JSON.stringify(jsonArrayObj[arrayNDX]);
-                            tl.debug("Array info: "  + arData);
-                            dataQueue.push(new dataItem.DataItem(arData,thisprfx));                       
-                    
-                    }
-                    else
-                    {
-                        //doseomthing with J.
-                        
-                        
-                            var thisItem:string = jsonArrayObj[arrayNDX];
-                            var thisprfx = prfx + (arrayNDX + 1).toString();
-                            if(thisItem.startsWith('"') && thisItem.endsWith('"'))
-                            {
-                                thisItem = thisItem.substring(1,(thisItem.length - 1));
-                            }
-                            console.log("Creating variable : " + thisprfx + " | " + thisItem);
-                            tl.setVariable(thisprfx, thisItem);
-                        
-                    }
-            }
-                
-            }
+            
             else //this is a normal value, we should create a variable for it
             {
-                var vName:string = thisDataItem.PrefixChain + "." + keys[ndx];
+                //var vName:string = thisDataItem.PrefixChain + "." + keys[ndx];
+                var vName:string = thisDataItem.PrefixChain;
                 
-                if(txt.startsWith('"') && txt.endsWith('"'))
-                {
-                    txt = txt.substring(1,(txt.length - 1));
-                }
-                console.log("Creating variable : " + vName + " | " + txt);
-                tl.setVariable(vName, txt);
+
+                console.log("Creating variable : " + vName + " | " + thisJson);
+                tl.setVariable(vName,thisJson);
             }
         }
 }
 
 //Tests to see if this item's string indicates it is an array
-async function isNodeArray(nodeText:string):Promise<boolean>
+async function isNodeArray(thisJSONObj:any):Promise<boolean>
 {
     return new Promise<boolean>(async (resolve, reject) => {
         try{
             var isComplex:boolean = false;
-            if(nodeText.length > 1)
+            if(thisJSONObj instanceof Array)
             {
-                if(nodeText.startsWith("[") && nodeText.endsWith("]"))
-                {
-                    isComplex = true;
-                }
-
+                isComplex = true;
             }
-
+            
+            
             resolve(isComplex);
         }
         catch(err)
@@ -159,19 +144,22 @@ async function isNodeArray(nodeText:string):Promise<boolean>
 
 
 //Tests to see if this items text indicates that it is a complex object
-async function isNodeComplex(nodeText:string):Promise<boolean>
+async function isNodeComplex(thisJSONObj:any):Promise<boolean>
 {
     return new Promise<boolean>(async (resolve, reject) => {
+        var typeArray: string[] =["string", "number", "boolean"];
         try{
-            var isComplex:boolean = false;
-            if(nodeText.length > 1)
-            {
-                if(nodeText.startsWith("{") && nodeText.endsWith("}"))
-                {
-                    isComplex = true;
-                }
 
+            var isComplex:boolean = false;
+            if(typeArray.indexOf(typeof thisJSONObj) > -1)
+            {
+                isComplex = false
             }
+            else            
+            {
+                isComplex = true;
+            }
+            
 
             resolve(isComplex);
         }

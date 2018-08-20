@@ -4,8 +4,8 @@ var tslib_1 = require("tslib");
 var gfs = require("graceful-fs");
 function OpenFile(filename) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
-        var _this = this;
         var completeSuccess, filecontent;
+        var _this = this;
         return tslib_1.__generator(this, function (_a) {
             completeSuccess = true;
             filecontent = "";

@@ -4,7 +4,7 @@
       "key1": 123,
       "key2": 34343
     },
-    "collection1": [
+    "collectionA": [
       {
         "aV1": "temp",
         "aV2": "tttt"
@@ -14,7 +14,7 @@
         "aV2": "jdskfjsadfkjds"
       }
     ],
-    "collection2":[
+    "collectionB":[
       "text",
       "text2"
     ]
