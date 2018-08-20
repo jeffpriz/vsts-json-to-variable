@@ -82,7 +82,7 @@ function ProcessSingleNode(dataQueue, thisJson, ndx, thisDataItem, keys, shouldP
                     //var jsonArrayObj = parseJson(txt);
                     for (arrayNDX = 0; arrayNDX < thisJson.length; arrayNDX++) {
                         prfx = "";
-                        prfx = thisDataItem.PrefixChain + arrayNDX.toString();
+                        prfx = thisDataItem.PrefixChain + (arrayNDX + 1).toString();
                         dataQueue.push(new dataItem.DataItem(thisJson[arrayNDX], prfx, shouldPrefix));
                         // if(await isNodeComplex(thisJson[arrayNDX]))
                         // {
