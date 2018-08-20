@@ -1,11 +1,5 @@
 
-import * as path from 'path';
-import * as gfs from 'graceful-fs';
-import * as stripBom from 'strip-bom';
-import * as parseJson from 'parse-json';
-import * as pify from 'pify';
 import * as processJson from './processJson';
-import * as getFSData from './getFSData';
 import fs = require('fs-extra');
  
 
