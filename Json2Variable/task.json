@@ -13,7 +13,7 @@
     "version": {
       "Major": "1",
       "Minor": "0", 
-      "Patch": "8"
+      "Patch": "9"
     },
     "minimumAgentVersion": "1.95.0",
     "instanceNameFormat": "JSON to Variable",
@@ -38,7 +38,7 @@
             "label": "Should Add prefix to variable name",
             "required": true,
             "defaultValue": true,
-            "helpMarkDown": "The location to load the JSON file from."
+            "helpMarkDown": "Allows you to control if the task adds a prefix to the start of the variable names.  When using multiple tasks in the same build/release this will help keep things clear as to which file the variable originated."
         },
         {
             "name": "variablePrefix",

@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "json2variable",
     "name": "Json to Variable",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "publisher": "OneLuckiDev",
     "targets": [
         {
