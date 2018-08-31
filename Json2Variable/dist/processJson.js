@@ -69,7 +69,7 @@ function ProcessSingleNode(dataQueue, thisJson, thisDataItem, shouldPrefix) {
                     if (!(isArray || isComplexObject)) {
                         vName = thisDataItem.PrefixChain;
                         console.log("Creating variable : " + vName + " | " + thisJson);
-                        tl.setVariable(vName, thisJson);
+                        tl.setVariable(vName, thisJson.toString());
                     }
                     _a.label = 4;
                 case 4: return [2 /*return*/];
