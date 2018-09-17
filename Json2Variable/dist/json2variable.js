@@ -58,7 +58,7 @@ function Run() {
                     content = fs.readFileSync(input_fileName, { encoding: 'utf8' });
                     tl.debug("File Contents: ");
                     tl.debug(content);
-                    contentObj = JSON.parse(content);
+                    contentObj = JSON.parse(content.toString('utf8').replace(/^\uFEFF/, ''));
                     return [4 /*yield*/, processJson.ProcessKeys(contentObj, input_variablePrefix, input_shouldPrefixVariables)];
                 case 2:
                     result = _a.sent();

@@ -72,10 +72,10 @@ async function Run()
         {
 
             var content = fs.readFileSync(input_fileName, { encoding: 'utf8' });
-
+            
             tl.debug("File Contents: ")
             tl.debug(content);
-            var contentObj:any = JSON.parse(content);
+            var contentObj:any = JSON.parse(content.toString('utf8').replace(/^\uFEFF/, ''));
             var result:boolean =  await processJson.ProcessKeys(contentObj, input_variablePrefix, input_shouldPrefixVariables);
         
         }

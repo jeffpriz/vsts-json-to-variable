@@ -16,7 +16,7 @@ async function Run()
         {
             //fileContent = await getFSData.OpenFile(input_fileName);
             var content = fs.readFileSync(input_fileName, { encoding: 'utf8' });
-            var contentObj:any = JSON.parse(content);
+            var contentObj:any = JSON.parse(content.toString('utf8').replace(/^\uFEFF/, ''));
             //            var data:JSON = parseJson(fileContent);
             
             //var data:JSON = await processJson.ParseFileDataIntoJsonObject(content);

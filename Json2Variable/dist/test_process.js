@@ -18,7 +18,7 @@ function Run() {
                     _a.trys.push([1, 5, , 6]);
                     if (!validInputs) return [3 /*break*/, 3];
                     content = fs.readFileSync(input_fileName, { encoding: 'utf8' });
-                    contentObj = JSON.parse(content);
+                    contentObj = JSON.parse(content.toString('utf8').replace(/^\uFEFF/, ''));
                     return [4 /*yield*/, processJson.ProcessKeys(contentObj, "json", false)];
                 case 2:
                     result = _a.sent();
