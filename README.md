@@ -12,6 +12,8 @@ Some uses might be to
 
 NOTE -- with great power comes great responsibility, think through the implications of using this for what you are doing, just because you "Can" do something, doesn't always mean it's the "Right" choice.
 
+[![Build Status](https://oneluckidev.visualstudio.com/OneLuckiDev/_apis/build/status/vsts-json-to-variable)](https://oneluckidev.visualstudio.com/OneLuckiDev/_build/latest?definitionId=16)
+
 
 ## Functionality
 This task reads a JSON file, parses through it an set variable values based on the structure of the JSON that was read in. Variable will be created or updated if the exist already. 
