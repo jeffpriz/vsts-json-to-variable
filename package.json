@@ -1,0 +1,29 @@
+{
+    "name": "release-tfx-cli",
+    "version": "1.0.0",
+    "description": "This TFS & VSTS Release task can be used to create build variables from a JSON file ",
+    "main": ".",
+    "scripts": {
+      "build": "tsc",
+      "compile": "npm install && npm build",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+      "TFS",
+      "VSTS",
+      "Release"
+    ],
+    "author": "Jeff Przylucki",
+    "license": "GPL-3.0",
+    "repository": {
+      "url": "https://github.com/jeffpriz/vsts-json-to-variable"
+    },
+    "devDependencies": {
+
+    },
+    "files": [
+
+    ],
+    "dependencies": {
+      "tfx-cli":"^0.6.3"
+    }
