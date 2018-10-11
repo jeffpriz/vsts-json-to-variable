@@ -44,7 +44,7 @@ function validateInputs() {
 ///Run function to handle the async running process of the task
 function Run() {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
-        var fileContent, content, contentObj, result, err_1;
+        var fileContent, contentObj, result, err_1;
         return tslib_1.__generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -53,27 +53,68 @@ function Run() {
                     fileContent = "";
                     _a.label = 1;
                 case 1:
-                    _a.trys.push([1, 5, , 6]);
-                    if (!validInputs) return [3 /*break*/, 3];
-                    content = fs.readFileSync(input_fileName, { encoding: 'utf8' });
-                    tl.debug("File Contents: ");
-                    tl.debug(content);
-                    contentObj = JSON.parse(content.toString('utf8').replace(/^\uFEFF/, ''));
-                    return [4 /*yield*/, processJson.ProcessKeys(contentObj, input_variablePrefix, input_shouldPrefixVariables)];
+                    _a.trys.push([1, 6, , 7]);
+                    if (!validInputs) return [3 /*break*/, 4];
+                    return [4 /*yield*/, getFileJSONData()];
                 case 2:
-                    result = _a.sent();
-                    return [3 /*break*/, 4];
+                    contentObj = _a.sent();
+                    return [4 /*yield*/, processJson.ProcessKeys(contentObj, input_variablePrefix, input_shouldPrefixVariables)];
                 case 3:
+                    result = _a.sent();
+                    return [3 /*break*/, 5];
+                case 4:
                     tl.setResult(tl.TaskResult.Failed, "Invalid Inputs");
-                    _a.label = 4;
-                case 4: return [3 /*break*/, 6];
-                case 5:
+                    _a.label = 5;
+                case 5: return [3 /*break*/, 7];
+                case 6:
                     err_1 = _a.sent();
                     tl.error(err_1);
                     tl.setResult(tl.TaskResult.Failed, "processing JSON failed");
-                    return [3 /*break*/, 6];
-                case 6: return [2 /*return*/];
+                    return [3 /*break*/, 7];
+                case 7: return [2 /*return*/];
             }
+        });
+    });
+}
+function getFileJSONData() {
+    return tslib_1.__awaiter(this, void 0, void 0, function () {
+        var _this = this;
+        return tslib_1.__generator(this, function (_a) {
+            return [2 /*return*/, new Promise(function (resolve, reject) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                    var retryCount, success, jsonErr, contentObj, content;
+                    return tslib_1.__generator(this, function (_a) {
+                        try {
+                            retryCount = 0;
+                            success = false;
+                            while (!((retryCount >= 5) || success)) {
+                                try {
+                                    content = fs.readFileSync(input_fileName, { encoding: 'utf8' });
+                                    tl.debug("File Contents: ");
+                                    tl.debug(content);
+                                    contentObj = JSON.parse(content.toString('utf8').replace(/^\uFEFF/, ''));
+                                    success = true;
+                                }
+                                catch (err) {
+                                    jsonErr = err;
+                                    retryCount++;
+                                    tl.debug("error reading json: " + err.toString());
+                                    tl.debug("retry count: " + retryCount.toString());
+                                }
+                            }
+                            if (success) {
+                                resolve(contentObj);
+                            }
+                            else {
+                                reject(jsonErr);
+                            }
+                        }
+                        catch (outsideError) {
+                            tl.debug("error in JSON read process " + outsideError.toString());
+                            reject(outsideError);
+                        }
+                        return [2 /*return*/];
+                    });
+                }); })];
         });
     });
 }

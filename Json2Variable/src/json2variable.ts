@@ -71,11 +71,8 @@ async function Run()
         if(validInputs)
         {
 
-            var content = fs.readFileSync(input_fileName, { encoding: 'utf8' });
-            
-            tl.debug("File Contents: ")
-            tl.debug(content);
-            var contentObj:any = JSON.parse(content.toString('utf8').replace(/^\uFEFF/, ''));
+
+            var contentObj:any = await getFileJSONData();
             var result:boolean =  await processJson.ProcessKeys(contentObj, input_variablePrefix, input_shouldPrefixVariables);
         
         }
@@ -90,6 +87,53 @@ async function Run()
         tl.setResult(tl.TaskResult.Failed, "processing JSON failed");
     }
 }
+
+async function getFileJSONData():Promise<any>
+{
+
+
+return new Promise<any>(async (resolve, reject) => {
+    try{
+            var retryCount:number =0;
+            var success:boolean = false;
+            var jsonErr:any;
+            var contentObj:any;
+            while(!((retryCount >= 5) || success))
+            {
+                try {
+                    var content = fs.readFileSync(input_fileName, { encoding: 'utf8' });            
+                    tl.debug("File Contents: ")
+                    tl.debug(content);
+                    contentObj = JSON.parse(content.toString('utf8').replace(/^\uFEFF/, ''));
+                    success = true;
+                }
+                catch(err){
+                    jsonErr = err;
+                    retryCount++;
+                    tl.debug("error reading json: " + err.toString());
+                    tl.debug("retry count: " + retryCount.toString());
+                }
+
+            }
+            if(success)
+            {
+                resolve(contentObj)
+            }
+            else
+            {
+                reject(jsonErr);
+            }
+        }
+        catch(outsideError)
+        {
+            tl.debug("error in JSON read process " + outsideError.toString());
+            reject(outsideError);
+        }
+});
+
+
+}
+
 
 //main
 try
