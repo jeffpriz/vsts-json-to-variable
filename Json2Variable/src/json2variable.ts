@@ -98,7 +98,7 @@ return new Promise<any>(async (resolve, reject) => {
             var success:boolean = false;
             var jsonErr:any;
             var contentObj:any;
-            while(!((retryCount >= 5) || success))
+            while(!((retryCount >= 4) || success))
             {
                 try {
                     var content = fs.readFileSync(input_fileName, { encoding: 'utf8' });            
