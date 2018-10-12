@@ -5,6 +5,7 @@
   "main": "dist/json2variable.js",
   "scripts": {
     "build": "tsc",
+    "tsc": "tsc -project tsconfig.json",
     "compile": "npm install && npm build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
