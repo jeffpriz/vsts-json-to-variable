@@ -1,5 +1,5 @@
 # JSON to Variable
-TFS and VSTS build and release task that will read a JSON file (not JSON data from an api) and generate build and release variables to be used by other tasks in the build or release process.
+TFS and Azure DevOps build and release pipeline task that will read a JSON file (not JSON data from an api) and generate build and release variables to be used by other tasks in the build or release process.
 
 This gives you the ability to read JSON files available at build or release time, the files can be something located on the File system available to build or release agents, or can be something read in from the Build source code, or in the build Artifact at release time. 
 
@@ -14,6 +14,16 @@ NOTE -- with great power comes great responsibility, think through the implicati
 
 [![Build Status](https://oneluckidev.visualstudio.com/OneLuckiDev/_apis/build/status/vsts-json-to-variable)](https://oneluckidev.visualstudio.com/OneLuckiDev/_build/latest?definitionId=16)
 
+
+## Azure Dev Ops YAML
+steps: --
+
+` - task:OneLuckiDev.json2variable.vsts-release-web-test.oneLuckiDevJson2Variable@1
+  displayName: 'JSON to Variable'
+  inputs:
+    jsonFile: '-- your json file here --'`
+
+ `   variablePrefix: vssExtension`
 
 ## Functionality
 This task reads a JSON file, parses through it an set variable values based on the structure of the JSON that was read in. Variable will be created or updated if the exist already. 
