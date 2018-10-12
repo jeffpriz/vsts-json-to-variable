@@ -4,7 +4,7 @@
   "description": "This TFS & VSTS Release task can be used to create build variables from a JSON file ",
   "main": "dist/json2variable.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc.cmd",
     "tsc": "tsc -project tsconfig.json",
     "compile": "npm install && npm build",
     "test": "echo \"Error: no test specified\" && exit 1"
