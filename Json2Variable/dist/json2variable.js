@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var tl = require("vsts-task-lib");
 var processJson = require("./processJson");
-var fs = require("fs-extra");
+var getFSData = require("./getFSData");
 var validInputs = false;
 var input_fileName = "";
 var input_variablePrefix = "";
@@ -81,38 +81,49 @@ function getFileJSONData() {
         var _this = this;
         return tslib_1.__generator(this, function (_a) {
             return [2 /*return*/, new Promise(function (resolve, reject) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var retryCount, success, jsonErr, contentObj, content;
-                    return tslib_1.__generator(this, function (_a) {
-                        try {
-                            retryCount = 0;
-                            success = false;
-                            while (!((retryCount >= 5) || success)) {
-                                try {
-                                    content = fs.readFileSync(input_fileName, { encoding: 'utf8' });
-                                    tl.debug("File Contents: ");
-                                    tl.debug(content);
-                                    contentObj = JSON.parse(content.toString('utf8').replace(/^\uFEFF/, ''));
-                                    success = true;
+                    var retryCount, success, jsonErr, contentObj, _a, _b, err_2, outsideError_1;
+                    return tslib_1.__generator(this, function (_c) {
+                        switch (_c.label) {
+                            case 0:
+                                _c.trys.push([0, 7, , 8]);
+                                retryCount = 0;
+                                success = false;
+                                _c.label = 1;
+                            case 1:
+                                if (!!((retryCount >= 4) || success)) return [3 /*break*/, 6];
+                                _c.label = 2;
+                            case 2:
+                                _c.trys.push([2, 4, , 5]);
+                                _b = (_a = JSON).parse;
+                                return [4 /*yield*/, getFSData.OpenFile(input_fileName)];
+                            case 3:
+                                contentObj = _b.apply(_a, [_c.sent()]);
+                                //contentObj = JSON.parse(content.toString('utf8').replace(/^\uFEFF/, ''));
+                                success = true;
+                                return [3 /*break*/, 5];
+                            case 4:
+                                err_2 = _c.sent();
+                                jsonErr = err_2;
+                                retryCount++;
+                                tl.debug("error reading json: " + err_2.toString());
+                                tl.debug("retry count: " + retryCount.toString());
+                                return [3 /*break*/, 5];
+                            case 5: return [3 /*break*/, 1];
+                            case 6:
+                                if (success) {
+                                    resolve(contentObj);
                                 }
-                                catch (err) {
-                                    jsonErr = err;
-                                    retryCount++;
-                                    tl.debug("error reading json: " + err.toString());
-                                    tl.debug("retry count: " + retryCount.toString());
+                                else {
+                                    reject(jsonErr);
                                 }
-                            }
-                            if (success) {
-                                resolve(contentObj);
-                            }
-                            else {
-                                reject(jsonErr);
-                            }
+                                return [3 /*break*/, 8];
+                            case 7:
+                                outsideError_1 = _c.sent();
+                                tl.debug("error in JSON read process " + outsideError_1.toString());
+                                reject(outsideError_1);
+                                return [3 /*break*/, 8];
+                            case 8: return [2 /*return*/];
                         }
-                        catch (outsideError) {
-                            tl.debug("error in JSON read process " + outsideError.toString());
-                            reject(outsideError);
-                        }
-                        return [2 /*return*/];
                     });
                 }); })];
         });

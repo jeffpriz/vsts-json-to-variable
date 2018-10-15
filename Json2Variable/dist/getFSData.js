@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var gfs = require("graceful-fs");
+var tl = require("vsts-task-lib");
 function OpenFile(filename) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
         var completeSuccess, filecontent;
@@ -13,6 +14,8 @@ function OpenFile(filename) {
                     return tslib_1.__generator(this, function (_a) {
                         try {
                             filecontent = gfs.readFileSync(filename, "utf8");
+                            tl.debug("File content is: ");
+                            tl.debug(filecontent);
                             resolve(filecontent);
                         }
                         catch (err) {

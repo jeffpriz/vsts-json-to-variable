@@ -1,7 +1,6 @@
 
 import * as processJson from './processJson';
-import fs = require('fs-extra');
- 
+import * as getFSData from './getFSData';
 
 var input_fileName = "testJsonData.json";
 async function Run()
@@ -15,12 +14,14 @@ async function Run()
         if(validInputs)
         {
             //fileContent = await getFSData.OpenFile(input_fileName);
-            var content = fs.readFileSync(input_fileName, { encoding: 'utf8' });
-            var contentObj:any = JSON.parse(content.toString('utf8').replace(/^\uFEFF/, ''));
+            //var content = fs.readFileSync(input_fileName, { encoding: 'utf8' });
+            var obCont:any = JSON.parse(await getFSData.OpenFile(input_fileName));
+            //var contentObj:any = JSON.parse(content.toString('utf8').replace(/^\uFEFF/, ''));
             //            var data:JSON = parseJson(fileContent);
             
             //var data:JSON = await processJson.ParseFileDataIntoJsonObject(content);
-            var result:boolean =  await processJson.ProcessKeys(contentObj,"json", false);
+            var result:boolean =  await processJson.ProcessKeys(obCont,"json", false);
+            var what:string = "what";
         }
         else{
             console.log("fail");
