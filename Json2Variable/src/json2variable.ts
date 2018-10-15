@@ -1,6 +1,6 @@
 import * as tl from 'vsts-task-lib';
 import * as processJson from './processJson';
-import fs = require('fs-extra');
+import * as getFSData from './getFSData';
 
 var validInputs:boolean = false;
 var input_fileName:string = "";
@@ -101,10 +101,11 @@ return new Promise<any>(async (resolve, reject) => {
             while(!((retryCount >= 4) || success))
             {
                 try {
-                    var content = fs.readFileSync(input_fileName, { encoding: 'utf8' });            
-                    tl.debug("File Contents: ")
-                    tl.debug(content);
-                    contentObj = JSON.parse(content.toString('utf8').replace(/^\uFEFF/, ''));
+                    //var content = fs.readFileSync(input_fileName, { encoding: 'utf8' });            
+                    //tl.debug("File Contents: ")
+                    //tl.debug(content);
+                    contentObj:any = JSON.parse(await getFSData.OpenFile(input_fileName));
+                    //contentObj = JSON.parse(content.toString('utf8').replace(/^\uFEFF/, ''));
                     success = true;
                 }
                 catch(err){

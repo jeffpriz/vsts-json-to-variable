@@ -86,7 +86,7 @@ function getFileJSONData() {
                         try {
                             retryCount = 0;
                             success = false;
-                            while (!((retryCount >= 5) || success)) {
+                            while (!((retryCount >= 4) || success)) {
                                 try {
                                     content = fs.readFileSync(input_fileName, { encoding: 'utf8' });
                                     tl.debug("File Contents: ");
