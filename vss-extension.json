@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "json2variable",
     "name": "Json to Variable",
-    "version": "1.0.14",
+    "version": "1.0.15",
     
     "publisher": "OneLuckiDev",
     "targets": [
@@ -15,7 +15,7 @@
     },
     "description": "Task that will read a JSON file present on your build agent, from a build or a release, and will Generate Build/Release Variables to be used in other steps.",
     "categories": [
-        "Build and release"
+        "Azure Pipelines"
     ],
     "files": [
         {

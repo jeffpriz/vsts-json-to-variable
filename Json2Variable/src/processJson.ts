@@ -1,4 +1,4 @@
-import * as tl from 'vsts-task-lib';
+import * as tl from 'azure-pipelines-task-lib';
 import * as dataItem from './dataitem';
 import { DataItem } from './dataitem';
 

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
-var tl = require("vsts-task-lib");
+var tl = require("azure-pipelines-task-lib");
 var dataItem = require("./dataitem");
 //Function to process through the keys in the JSON.. This will run recursivly through a queue
 function ProcessKeys(jsonData, prefix, shouldPrefix) {

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var gfs = require("graceful-fs");
-var tl = require("vsts-task-lib");
+var tl = require("azure-pipelines-task-lib");
 function OpenFile(filename) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
         var completeSuccess, filecontent;
