@@ -18,12 +18,12 @@ NOTE -- with great power comes great responsibility, think through the implicati
 ## Azure Dev Ops YAML
 steps: --
 
-` - task:OneLuckiDev.json2variable.vsts-release-web-test.oneLuckiDevJson2Variable@1
-  displayName: 'JSON to Variable'
-  inputs:
-    jsonFile: '-- your json file here --'`
-
- `   variablePrefix: vssExtension`
+` - task:OneLuckiDev.json2variable.vsts-release-web-test.oneLuckiDevJson2Variable@1`
+`  displayName: 'JSON to Variable'`
+`  inputs:`
+`    jsonFile: '-- your json file here --'`
+`    shouldPrefixVariables: true `
+`    variablePrefix: prefixNameHere`
 
 ## Functionality
 This task reads a JSON file, parses through it an set variable values based on the structure of the JSON that was read in. Variable will be created or updated if the exist already. 
