@@ -11,7 +11,7 @@
   },
   "keywords": [
     "TFS",
-    "VSTS",
+    "Azure DevOps",
     "Release"
   ],
   "author": "Jeff Przylucki",
@@ -29,9 +29,9 @@
     "config/"
   ],
   "dependencies": {
-    "vsts-task-lib": "^2.0.7",
+    "azure-pipelines-task-lib":"^2.7.5",
     "reflect-metadata": "^0.1.10",
-    "tslib": "^1.7.1",
+    "tslib": "^1.9.3",
     "fs-extra": "7.0.0"
   }
 }

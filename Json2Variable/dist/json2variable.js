@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
-var tl = require("vsts-task-lib");
+var tl = require("azure-pipelines-task-lib");
 var processJson = require("./processJson");
 var fs = require("fs-extra");
 var validInputs = false;
@@ -86,7 +86,7 @@ function getFileJSONData() {
                         try {
                             retryCount = 0;
                             success = false;
-                            while (!((retryCount >= 5) || success)) {
+                            while (!((retryCount >= 4) || success)) {
                                 try {
                                     content = fs.readFileSync(input_fileName, { encoding: 'utf8' });
                                     tl.debug("File Contents: ");
