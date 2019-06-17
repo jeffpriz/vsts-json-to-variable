@@ -22,6 +22,7 @@ function ProcessKeys(jsonData, prefix, shouldPrefix) {
                                 if (!(dataQueue.length > 0)) return [3 /*break*/, 5];
                                 thisDataItem = dataQueue.pop();
                                 if (!(thisDataItem != undefined)) return [3 /*break*/, 4];
+                                if (!(thisDataItem.DataObj != undefined)) return [3 /*break*/, 4];
                                 tl.debug("Popped: " + thisDataItem.DataObj.toString() + " | " + thisDataItem.PrefixChain);
                                 _a.label = 1;
                             case 1:
@@ -69,7 +70,12 @@ function ProcessSingleNode(dataQueue, thisJson, thisDataItem, shouldPrefix) {
                     if (!(isArray || isComplexObject)) {
                         vName = thisDataItem.PrefixChain;
                         console.log("Creating variable : " + vName + " | " + thisJson);
-                        tl.setVariable(vName, thisJson.toString());
+                        if (thisJson != undefined) {
+                            tl.setVariable(vName, thisJson.toString());
+                        }
+                        else {
+                            tl.setVariable(vName, "");
+                        }
                     }
                     _a.label = 4;
                 case 4: return [2 /*return*/];

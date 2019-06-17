@@ -28,4 +28,30 @@ function OpenFile(filename) {
     });
 }
 exports.OpenFile = OpenFile;
+function WriteFile(filename, fileData) {
+    return tslib_1.__awaiter(this, void 0, void 0, function () {
+        var completeSuccess, filecontent;
+        var _this = this;
+        return tslib_1.__generator(this, function (_a) {
+            completeSuccess = false;
+            filecontent = "";
+            return [2 /*return*/, new Promise(function (resolve, reject) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                    return tslib_1.__generator(this, function (_a) {
+                        try {
+                            filecontent = gfs.writeFileSync(filename, fileData);
+                            completeSuccess = true;
+                            tl.debug("File content is: ");
+                            tl.debug(filecontent);
+                            resolve(completeSuccess);
+                        }
+                        catch (err) {
+                            reject(err);
+                        }
+                        return [2 /*return*/];
+                    });
+                }); })];
+        });
+    });
+}
+exports.WriteFile = WriteFile;
 //# sourceMappingURL=getFSData.js.map
