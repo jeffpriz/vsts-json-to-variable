@@ -22,21 +22,25 @@ export async function ProcessKeys(jsonData:any, prefix:string, shouldPrefix:bool
             var thisDataItem:dataItem.DataItem = dataQueue.pop() as dataItem.DataItem;
             if(thisDataItem != undefined)
             {
-            tl.debug("Popped: " + thisDataItem.DataObj.toString() + " | " + thisDataItem.PrefixChain);
 
-            try
-            {
-                var thisJson:any = thisDataItem.DataObj;                  
-                await ProcessSingleNode(dataQueue, thisJson,  thisDataItem,  shouldPrefix);
-                   
-                resolve(true);
-            }
-            catch(err)
-            {
-                tl.debug(err);
-                reject(err);
-            }
-        }   
+                if(thisDataItem.DataObj != undefined)
+                {
+                    tl.debug("Popped: " + thisDataItem.DataObj.toString() + " | " + thisDataItem.PrefixChain);
+
+                    try
+                    {
+                        var thisJson:any = thisDataItem.DataObj;                  
+                        await ProcessSingleNode(dataQueue, thisJson,  thisDataItem,  shouldPrefix);
+                        
+                        resolve(true);
+                    }
+                    catch(err)
+                    {
+                        tl.debug(err);
+                        reject(err);
+                    }
+                }
+            }   
         }
     });
 
@@ -65,7 +69,14 @@ async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:any, thi
             {
                 var vName:string = thisDataItem.PrefixChain;
                 console.log("Creating variable : " + vName + " | " + thisJson);
-                tl.setVariable(vName,thisJson.toString());
+                if(thisJson != undefined)
+                {
+                    tl.setVariable(vName,thisJson.toString());
+                }
+                else
+                {
+                    tl.setVariable(vName,"");  
+                }
             }
             
         }
