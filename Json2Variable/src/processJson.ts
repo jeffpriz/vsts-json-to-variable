@@ -83,6 +83,7 @@ async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:any, thi
 }
 
 
+
 //Checks if the current JSON Node is an Array, and will loop through and process that array.  Pushing objects on the queue to be recursed through
 async function processArrayNode(dataQueue:dataItem.DataItem[],thisJson:any, thisDataItem:dataItem.DataItem, shouldPrefix:boolean):Promise<boolean>
 {
@@ -113,7 +114,7 @@ async function processArrayNode(dataQueue:dataItem.DataItem[],thisJson:any, this
 
 //Checks to see if the current JSON Node is a complex JSON Object (not a simple string, bool, or number) and will go through each key in the object and push items
 //on to the Queue to be recursed through
-async function processComplexObject(dataQueue:dataItem.DataItem[],thisJson:any, thisDataItem:dataItem.DataItem, shouldPrefix:boolean):Promise<boolean>
+export async function processComplexObject(dataQueue:dataItem.DataItem[],thisJson:any, thisDataItem:dataItem.DataItem, shouldPrefix:boolean):Promise<boolean>
 {
     return new Promise<boolean>(async (resolve, reject) => {
         try{
@@ -149,7 +150,7 @@ async function processComplexObject(dataQueue:dataItem.DataItem[],thisJson:any, 
 }
 
 //Tests to see if this item's string indicates it is an array
-async function isNodeArray(thisJSONObj:any):Promise<boolean>
+export async function isNodeArray(thisJSONObj:any):Promise<boolean>
 {
     return new Promise<boolean>(async (resolve, reject) => {
         try{
@@ -172,7 +173,7 @@ async function isNodeArray(thisJSONObj:any):Promise<boolean>
 
 
 //Tests to see if this items text indicates that it is a complex object
-async function isNodeComplex(thisJSONObj:any):Promise<boolean>
+export async function isNodeComplex(thisJSONObj:any):Promise<boolean>
 {
     return new Promise<boolean>(async (resolve, reject) => {
         var typeArray: string[] =["string", "number", "boolean"];

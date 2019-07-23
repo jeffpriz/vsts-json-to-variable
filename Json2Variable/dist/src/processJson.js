@@ -159,7 +159,6 @@ function processComplexObject(dataQueue, thisJson, thisDataItem, shouldPrefix) {
         });
     });
 }
-exports.processComplexObject = processComplexObject;
 //Tests to see if this item's string indicates it is an array
 function isNodeArray(thisJSONObj) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -184,7 +183,6 @@ function isNodeArray(thisJSONObj) {
         });
     });
 }
-exports.isNodeArray = isNodeArray;
 //Tests to see if this items text indicates that it is a complex object
 function isNodeComplex(thisJSONObj) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -213,5 +211,4 @@ function isNodeComplex(thisJSONObj) {
         });
     });
 }
-exports.isNodeComplex = isNodeComplex;
 //# sourceMappingURL=processJson.js.map

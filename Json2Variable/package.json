@@ -1,5 +1,5 @@
 {
-  "name": "vsts-release-web-test",
+  "name": "vsts-json-to-variable",
   "version": "1.0.0",
   "description": "This TFS & VSTS Release task can be used to create build variables from a JSON file ",
   "main": "dist/json2variable.js",
@@ -7,7 +7,8 @@
     "build": "tsc.cmd",
     "tsc": "tsc -project tsconfig.json",
     "compile": "npm install && npm build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha",
+    "testProcessJSON": "mocha dist/test/processJsonTest.js"
   },
   "keywords": [
     "TFS",
@@ -21,7 +22,11 @@
   },
   "devDependencies": {
     "typescript": "^2.4.2",
-    "@types/node": "^6.0.31"
+    "@types/node": "^6.0.31",
+    "mocha": "6.2.0",
+    "@types/mocha": "5.2.7",
+    "chai": "4.2.0",
+    "@types/chai": "4.1.7"
   },
   "files": [
     "dist/",

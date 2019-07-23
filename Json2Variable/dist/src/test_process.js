@@ -39,10 +39,5 @@ function Run() {
         });
     });
 }
-var complexJSON = '{"result":true, "count":42, "complex1":{"key1":123, "value1":"akeyvalue"}}';
-var complexObj = JSON.parse(complexJSON);
-var simpleObj = "simpleJSON";
-var tp = typeof (simpleObj);
-console.log("tp:" + tp);
-//Run();
+Run();
 //# sourceMappingURL=test_process.js.map
