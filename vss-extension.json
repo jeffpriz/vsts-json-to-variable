@@ -41,7 +41,7 @@
     ],
     "contributions": [
         {
-            "id": "vsts-release-web-test",
+            "id": "vsts-json-to-variable",
             "type": "ms.vss-distributed-task.task",
             "targets": [
                 "ms.vss-distributed-task.tasks"
