@@ -27,7 +27,7 @@
     "inputs": [
         {
             "name": "jsonFile",
-            "type": "string",
+            "type": "filePath",
             "label": "Json File (full path)",
             "required": true,
             "helpMarkDown": "The location to load the JSON file from."
