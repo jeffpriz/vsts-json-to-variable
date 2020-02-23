@@ -1,4 +1,11 @@
 # JSON to Variable
+
+UPDATE 1.0.19 Update Note:  I apologize for the issue that was introduced with the update 1.0.19. It means you now have two Instances of the task installed on your server.  This is a result of a change made to the task ID for this extension.  I was trying to make an update to the task when the Marketplace was rejecting my udpate with the error:
+''Contribution Microsoft.VisualStudio.Services.TaskId.VSTS-JSON-TO-VARIABLE is re-using task ID of some other contribution from earlier version. To publish the extension, change the task ID.''
+
+I could only publish this update by changing the task ID, which has the unfortunate side-effect of messing up the installation for those who had it previously installed.  I've sent a query into the Marketplace team to see why this is happening.
+
+
 TFS and Azure DevOps build and release pipeline task that will read a JSON file (not JSON data from an api) and generate build and release variables to be used by other tasks in the build or release process.
 
 This gives you the ability to read JSON files available at build or release time, the files can be something located on the File system available to build or release agents, or can be something read in from the Build source code, or in the build Artifact at release time. 
