@@ -26,7 +26,7 @@ NOTE -- with great power comes great responsibility, think through the implicati
 ## Azure Dev Ops YAML
 steps: --
 
-` - task:OneLuckiDev.json2variable.vsts-release-web-test.oneLuckiDevJson2Variable@1`
+` - task: OneLuckiDev.json2variable.vsts-json-to-variable.oneLuckiDevJson2Variable@1`
 `  displayName: 'JSON to Variable'`
 `  inputs:`
 `    jsonFile: '-- your json file here --'`
