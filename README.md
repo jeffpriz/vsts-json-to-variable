@@ -11,7 +11,7 @@ Some uses might be to
 * Handling some versioning process through variables
 * Extending agent specific conditions to your release process
 
-##UPDATE 1.0.19 Update Note:  
+## UPDATE 1.0.19 Update Note:  
 I apologize for the issue that was introduced with the update 1.0.19. It means you now have two Instances of the task installed on your server.  This is a result of a change made to the task ID for this extension.  I was trying to make an update to the task when the Marketplace was rejecting my udpate with the error:
 
 ```Contribution Microsoft.VisualStudio.Services.TaskId.VSTS-JSON-TO-VARIABLE is re-using task ID of some other contribution from earlier version. To publish the extension, change the task ID.```
