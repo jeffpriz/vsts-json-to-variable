@@ -1,7 +1,7 @@
 {
-    "id": "ffd54dce-ce4f-4080-bdda-a110f334feff",
+    "id": "6f9cdff3-a6b9-47e1-90a8-6590ba11e157",
     "name": "oneLuckiDevJson2Variable",
-    "friendlyName": "Json to Variable",
+    "friendlyName": "JSON to Variable",
     "description": "Task that will read a JSON file and create build and/or release variables available to other tasks for the data in the JSON",
     "author": "Jeff Przylucki",  
     "category": "Utility",
@@ -13,7 +13,7 @@
     "version": {
       "Major": "1",
       "Minor": "0", 
-      "Patch": "19"
+      "Patch": "20"
     },
     "minimumAgentVersion": "1.95.0",
     "instanceNameFormat": "JSON to Variable",
