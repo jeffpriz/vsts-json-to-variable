@@ -16,7 +16,14 @@ function validateInputs() {
     tl.debug("validating inputs...");
     validInputs = true;
     try {
-        input_fileName = tl.getInput('jsonFile', true);
+        var test;
+        test = tl.getInput('jsonFile', true);
+        if (test == undefined) {
+            throw ("the filename was undefined");
+        }
+        else {
+            input_fileName = test;
+        }
     }
     catch (ex) {
         tl.error("a filename is a required input to this task, but was not supplied");
@@ -33,7 +40,14 @@ function validateInputs() {
     }
     validInputs = true;
     try {
-        input_variablePrefix = tl.getInput('variablePrefix', true);
+        var test;
+        test = tl.getInput('variablePrefix', true);
+        if (test == undefined) {
+            input_variablePrefix = "json";
+        }
+        else {
+            input_variablePrefix = test;
+        }
         tl.debug("The Variable preix is set to " + input_variablePrefix);
     }
     catch (ex) {

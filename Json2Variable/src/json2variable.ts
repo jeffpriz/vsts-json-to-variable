@@ -1,6 +1,7 @@
 import * as tl from 'azure-pipelines-task-lib';
 import * as processJson from './processJson';
 import * as getFSData from './getFSData';
+import { stringify } from 'querystring';
 
 var validInputs:boolean = false;
 var input_fileName:string = "";
@@ -18,7 +19,17 @@ function validateInputs()
     
     validInputs = true;
     try {
-        input_fileName = tl.getInput('jsonFile',true);
+        var test: string|undefined
+        test = tl.getInput('jsonFile',true)
+
+        if(test == undefined)
+        { 
+            throw("the filename was undefined");
+        }
+        else{
+            input_fileName = test
+        }
+        
         
 
     }
@@ -44,7 +55,16 @@ function validateInputs()
 
     validInputs = true;
     try {
-        input_variablePrefix = tl.getInput('variablePrefix',true);
+        var test:string | undefined
+        test = tl.getInput('variablePrefix',true);
+        if(test == undefined)
+        {
+            input_variablePrefix = "json";
+        }
+        else{
+            input_variablePrefix = test;
+        }
+        
         tl.debug("The Variable preix is set to " + input_variablePrefix);
 
     }

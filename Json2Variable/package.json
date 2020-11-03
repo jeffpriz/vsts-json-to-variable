@@ -11,8 +11,8 @@
     "testProcessJSON": "mocha dist/test/processJsonTest.js"
   },
   "keywords": [
-    "TFS",
-    "VSTS",
+    "Azure Pipeline",
+    "JSON",
     "Release"
   ],
   "author": "Jeff Przylucki",
@@ -34,9 +34,9 @@
     "config/"
   ],
   "dependencies": {
-    "azure-pipelines-task-lib": "~2.7.5",
-    "reflect-metadata": "^0.1.10",
+    "azure-pipelines-task-lib": "~2.11.3",
+    "reflect-metadata": "^0.1.13",
     "tslib": "^1.9.3",
-    "graceful-fs": "^4.1.11"
+    "graceful-fs": "^4.2.4"
   }
 }
