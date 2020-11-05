@@ -69,7 +69,8 @@ function ProcessSingleNode(dataQueue, thisJson, thisDataItem, shouldPrefix) {
                     //queue to be processed            
                     if (!(isArray || isComplexObject)) {
                         vName = thisDataItem.PrefixChain;
-                        console.log("Creating variable : " + vName + " | " + thisJson);
+                        console.log("Creating variable : " + vName);
+                        console.debug("variable value: " + thisJson);
                         if (thisJson != undefined) {
                             tl.setVariable(vName, thisJson.toString());
                         }

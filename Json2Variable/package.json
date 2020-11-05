@@ -8,7 +8,8 @@
     "tsc": "tsc -project tsconfig.json",
     "compile": "npm install && npm build",
     "test": "mocha",
-    "testProcessJSON": "mocha dist/test/processJsonTest.js"
+    "testProcessJSON": "mocha dist/test/processJsonTest.js",
+    "package-extension": "tfx extension create --manifest-globs vss-extension.json"
   },
   "keywords": [
     "Azure Pipeline",

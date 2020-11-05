@@ -1,9 +1,9 @@
 {
     "manifestVersion": 1,
-    "id": "json2variable",
-    "name": "Json to Variable",
-    "version": "1.0.25",
-    
+    "id": "json2variableTest",
+    "name": "Json to Variable-test ",
+    "version": "0.0.27",
+    "public": false,
     "publisher": "OneLuckiDev",
     "targets": [
         {
@@ -59,6 +59,5 @@
     "repository": {
         "type": "git",
         "uri": "https://github.com/jeffpriz/vsts-json-to-variable"
-    },
-    "public": true
+    }
 }

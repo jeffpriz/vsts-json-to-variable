@@ -69,7 +69,7 @@ async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:any, thi
             {
                 var vName:string = thisDataItem.PrefixChain;
                 console.log("Creating variable : " + vName );
-                console.debug("variable value: " + thisJson);
+                tl.debug("variable value: " + thisJson);
                 if(thisJson != undefined)
                 {
                     tl.setVariable(vName,thisJson.toString());
