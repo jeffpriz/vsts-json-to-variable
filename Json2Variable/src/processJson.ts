@@ -19,7 +19,7 @@ export async function ProcessKeys(jsonData:any, prefix:string, shouldPrefix:bool
         while(dataQueue.length > 0)
         {
             //pop the first item off the queue
-            var thisDataItem:dataItem.DataItem = dataQueue.pop() as dataItem.DataItem;
+            let thisDataItem:dataItem.DataItem = dataQueue.pop() as dataItem.DataItem;
             if(thisDataItem != undefined)
             {
 
@@ -29,7 +29,7 @@ export async function ProcessKeys(jsonData:any, prefix:string, shouldPrefix:bool
 
                     try
                     {
-                        var thisJson:any = thisDataItem.DataObj;                  
+                        let thisJson:any = thisDataItem.DataObj;                  
                         await ProcessSingleNode(dataQueue, thisJson,  thisDataItem,  shouldPrefix);
                         
                         resolve(true);
@@ -56,8 +56,8 @@ async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:any, thi
         {
             //If this is not a simple value, but a complex JSON object or an array, we need to push it
             //on to the queue to be processed
-            var isArray:boolean = await processArrayNode(dataQueue, thisJson, thisDataItem, shouldPrefix);
-            var isComplexObject:boolean = false;
+            let isArray:boolean = await processArrayNode(dataQueue, thisJson, thisDataItem, shouldPrefix);
+            let isComplexObject:boolean = false;
             if(!isArray)
             {
                 isComplexObject = await processComplexObject(dataQueue, thisJson, thisDataItem, shouldPrefix);
@@ -67,17 +67,10 @@ async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:any, thi
             //queue to be processed            
             if(!(isArray || isComplexObject))
             {
-                var vName:string = thisDataItem.PrefixChain;
-                console.log("Creating variable : " + vName );
-                tl.debug("variable value: " + thisJson);
-                if(thisJson != undefined)
-                {
-                    tl.setVariable(vName,thisJson.toString());
-                }
-                else
-                {
-                    tl.setVariable(vName,"");  
-                }
+                const vName:string = thisDataItem.PrefixChain;
+                const vValue = thisJson ? thisJson.toString() : "";
+                console.log(`Creating variable : ${vName} (value:${vValue})`);
+                tl.setVariable(vName, vValue);
             }
             
         }
@@ -90,11 +83,11 @@ async function processArrayNode(dataQueue:dataItem.DataItem[],thisJson:any, this
 {
     return new Promise<boolean>(async (resolve, reject) => {
         try{
-            var isArray:boolean = await isNodeArray(thisJson);
+            let isArray:boolean = await isNodeArray(thisJson);
             if(isArray)
             {
                 
-                for(var arrayNDX = 0; arrayNDX < thisJson.length; arrayNDX++)
+                for(let arrayNDX = 0; arrayNDX < thisJson.length; arrayNDX++)
                 {
                     var prfx:string = "";
                     prfx = thisDataItem.PrefixChain + (arrayNDX + 1).toString();
