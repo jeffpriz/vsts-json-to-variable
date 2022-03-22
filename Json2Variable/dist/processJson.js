@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isNodeComplex = exports.isNodeArray = exports.processComplexObject = exports.ProcessKeys = void 0;
 var tslib_1 = require("tslib");
 var tl = require("azure-pipelines-task-lib");
 var dataItem = require("./dataitem");
@@ -70,7 +71,7 @@ function ProcessSingleNode(dataQueue, thisJson, thisDataItem, shouldPrefix) {
                     if (!(isArray || isComplexObject)) {
                         vName = thisDataItem.PrefixChain;
                         console.log("Creating variable : " + vName);
-                        console.debug("variable value: " + thisJson);
+                        tl.debug("variable value: " + thisJson);
                         if (thisJson != undefined) {
                             tl.setVariable(vName, thisJson.toString());
                         }
