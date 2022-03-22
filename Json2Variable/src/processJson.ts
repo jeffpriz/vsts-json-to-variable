@@ -36,7 +36,7 @@ export async function ProcessKeys(jsonData:any, prefix:string, shouldPrefix:bool
                     }
                     catch(err)
                     {
-                        tl.debug(err);
+                        tl.debug(JSON.stringify(err));
                         reject(err);
                     }
                 }

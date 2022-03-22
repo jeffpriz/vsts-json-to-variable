@@ -102,7 +102,7 @@ async function Run()
     }
     catch(err)
     {
-        tl.error(err);
+        tl.error(JSON.stringify(err));
         
         tl.setResult(tl.TaskResult.Failed, "processing JSON failed");
     }
@@ -129,7 +129,7 @@ return new Promise<any>(async (resolve, reject) => {
                 catch(err){
                     jsonErr = err;
                     retryCount++;
-                    tl.debug("error reading json: " + err.toString());
+                    tl.debug("error reading json: " + JSON.stringify(err).toString());
                     tl.debug("retry count: " + retryCount.toString());
                 }
 
@@ -145,7 +145,7 @@ return new Promise<any>(async (resolve, reject) => {
         }
         catch(outsideError)
         {
-            tl.debug("error in JSON read process " + outsideError.toString());
+            tl.debug("error in JSON read process " + JSON.stringify(outsideError));
             reject(outsideError);
         }
 });
