@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "json2variableTest",
     "name": "Json to Variable-test ",
-    "version": "0.0.27",
+    "version": "0.0.30",
     "public": false,
     "publisher": "OneLuckiDev",
     "targets": [
