@@ -82,7 +82,7 @@ function Run() {
                 case 5: return [3 /*break*/, 7];
                 case 6:
                     err_1 = _a.sent();
-                    tl.error(err_1);
+                    tl.error(JSON.stringify(err_1));
                     tl.setResult(tl.TaskResult.Failed, "processing JSON failed");
                     return [3 /*break*/, 7];
                 case 7: return [2 /*return*/];
@@ -119,7 +119,7 @@ function getFileJSONData() {
                                 err_2 = _c.sent();
                                 jsonErr = err_2;
                                 retryCount++;
-                                tl.debug("error reading json: " + err_2.toString());
+                                tl.debug("error reading json: " + JSON.stringify(err_2).toString());
                                 tl.debug("retry count: " + retryCount.toString());
                                 return [3 /*break*/, 5];
                             case 5: return [3 /*break*/, 1];
@@ -133,7 +133,7 @@ function getFileJSONData() {
                                 return [3 /*break*/, 8];
                             case 7:
                                 outsideError_1 = _c.sent();
-                                tl.debug("error in JSON read process " + outsideError_1.toString());
+                                tl.debug("error in JSON read process " + JSON.stringify(outsideError_1));
                                 reject(outsideError_1);
                                 return [3 /*break*/, 8];
                             case 8: return [2 /*return*/];

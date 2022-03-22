@@ -36,7 +36,7 @@ function ProcessKeys(jsonData, prefix, shouldPrefix) {
                                 return [3 /*break*/, 4];
                             case 3:
                                 err_1 = _a.sent();
-                                tl.debug(err_1);
+                                tl.debug(JSON.stringify(err_1));
                                 reject(err_1);
                                 return [3 /*break*/, 4];
                             case 4: return [3 /*break*/, 0];
