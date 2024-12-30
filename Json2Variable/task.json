@@ -13,9 +13,9 @@
     "version": {
       "Major": "1",
       "Minor": "0", 
-      "Patch": "30"
+      "Patch": "35"
     },
-    "minimumAgentVersion": "2.144.0",
+    "minimumAgentVersion": "3.232.1",
     "instanceNameFormat": "JSON to Variable",
     "groups": [
         {
@@ -52,6 +52,14 @@
     ],
     "execution": {
       "Node": {
+        "target": "./dist/json2variable.js",
+        "argumentFormat": ""
+      },
+      "Node16": {
+        "target": "./dist/json2variable.js",
+        "argumentFormat": ""
+      },
+      "Node20_1": {
         "target": "./dist/json2variable.js",
         "argumentFormat": ""
       }

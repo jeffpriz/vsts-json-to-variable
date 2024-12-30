@@ -72,7 +72,7 @@
 
         /* Raise error on expressions and declarations with an implied 'any' type. */
         "noImplicitAny": false,
-        "suppressImplicitAnyIndexErrors": true,
+        
 
         /* Raise error on 'this' expressions with an implied 'any' type. */
         //"noImplicitThis": true,
@@ -115,7 +115,7 @@
         "typeRoots": ["node_modules/@types"],
 
         /* Type declaration files to be included in compilation. */
-        "types": ["node", "reflect-metadata"],
+        "types": ["node"],
 
         /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
         // "allowSyntheticDefaultImports": true,
