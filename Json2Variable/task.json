@@ -13,9 +13,9 @@
     "version": {
       "Major": "1",
       "Minor": "0", 
-      "Patch": "35"
+      "Patch": "36"
     },
-    "minimumAgentVersion": "3.232.1",
+    "minimumAgentVersion": "2.209.0",
     "instanceNameFormat": "JSON to Variable",
     "groups": [
         {
