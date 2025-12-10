@@ -86,7 +86,7 @@ async function ProcessSingleNode(dataQueue:dataItem.DataItem[],thisJson:any, thi
 
 
 //Checks if the current JSON Node is an Array, and will loop through and process that array.  Pushing objects on the queue to be recursed through
-async function processArrayNode(dataQueue:dataItem.DataItem[],thisJson:any, thisDataItem:dataItem.DataItem, shouldPrefix:boolean):Promise<boolean>
+export async function processArrayNode(dataQueue:dataItem.DataItem[],thisJson:any, thisDataItem:dataItem.DataItem, shouldPrefix:boolean):Promise<boolean>
 {
     return new Promise<boolean>(async (resolve, reject) => {
         try{
@@ -97,7 +97,7 @@ async function processArrayNode(dataQueue:dataItem.DataItem[],thisJson:any, this
                 for(var arrayNDX = 0; arrayNDX < thisJson.length; arrayNDX++)
                 {
                     var prfx:string = "";
-                    prfx = thisDataItem.PrefixChain + (arrayNDX + 1).toString();
+                    prfx = thisDataItem.PrefixChain + "." + (arrayNDX + 1).toString();
                     dataQueue.push(new dataItem.DataItem(thisJson[arrayNDX],prfx))
                     
                 }

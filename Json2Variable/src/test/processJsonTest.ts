@@ -88,4 +88,21 @@ describe('processJson', async function(){
 
     });
 
+    it('processArrayNode should format array indices with period prefix', async function(){
+        var arrayJSON = [
+            { "Start": "04:00:00", "End": "21:30:00", "TimeZone": "UTC" },
+            { "Start": "10:00:00", "End": "20:00:00", "TimeZone": "EST" }
+        ];
+        var queue:DataItem.DataItem[] =[];
+        var newDataItem:DataItem.DataItem = { DataObj:arrayJSON, PrefixChain:"SQS.RunWindows"};
+
+        var success:boolean = await processJson.processArrayNode(queue, arrayJSON, newDataItem, true);
+
+        assert.equal(success, true);
+        assert.equal(queue.length, 2);
+        // Array indices should have a period before them (e.g., "SQS.RunWindows.1" not "SQS.RunWindows1")
+        assert.equal(queue[0].PrefixChain, "SQS.RunWindows.1");
+        assert.equal(queue[1].PrefixChain, "SQS.RunWindows.2");
+    });
+
 });

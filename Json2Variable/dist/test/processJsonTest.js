@@ -147,6 +147,31 @@ describe('processJson', function () {
                     });
                 });
             });
+            it('processArrayNode should format array indices with period prefix', function () {
+                return tslib_1.__awaiter(this, void 0, void 0, function () {
+                    var arrayJSON, queue, newDataItem, success;
+                    return tslib_1.__generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                arrayJSON = [
+                                    { "Start": "04:00:00", "End": "21:30:00", "TimeZone": "UTC" },
+                                    { "Start": "10:00:00", "End": "20:00:00", "TimeZone": "EST" }
+                                ];
+                                queue = [];
+                                newDataItem = { DataObj: arrayJSON, PrefixChain: "SQS.RunWindows" };
+                                return [4 /*yield*/, processJson.processArrayNode(queue, arrayJSON, newDataItem, true)];
+                            case 1:
+                                success = _a.sent();
+                                assert.equal(success, true);
+                                assert.equal(queue.length, 2);
+                                // Array indices should have a period before them (e.g., "SQS.RunWindows.1" not "SQS.RunWindows1")
+                                assert.equal(queue[0].PrefixChain, "SQS.RunWindows.1");
+                                assert.equal(queue[1].PrefixChain, "SQS.RunWindows.2");
+                                return [2 /*return*/];
+                        }
+                    });
+                });
+            });
             return [2 /*return*/];
         });
     });
