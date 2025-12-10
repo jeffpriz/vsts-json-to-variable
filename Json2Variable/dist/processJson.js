@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isNodeComplex = exports.isNodeArray = exports.processComplexObject = exports.ProcessKeys = void 0;
+exports.isNodeComplex = exports.isNodeArray = exports.processComplexObject = exports.processArrayNode = exports.ProcessKeys = void 0;
 var tslib_1 = require("tslib");
 var tl = require("azure-pipelines-task-lib");
 var dataItem = require("./dataitem");
@@ -102,7 +102,7 @@ function processArrayNode(dataQueue, thisJson, thisDataItem, shouldPrefix) {
                                 if (isArray) {
                                     for (arrayNDX = 0; arrayNDX < thisJson.length; arrayNDX++) {
                                         prfx = "";
-                                        prfx = thisDataItem.PrefixChain + (arrayNDX + 1).toString();
+                                        prfx = thisDataItem.PrefixChain + "." + (arrayNDX + 1).toString();
                                         dataQueue.push(new dataItem.DataItem(thisJson[arrayNDX], prfx));
                                     }
                                 }
@@ -119,6 +119,7 @@ function processArrayNode(dataQueue, thisJson, thisDataItem, shouldPrefix) {
         });
     });
 }
+exports.processArrayNode = processArrayNode;
 //Checks to see if the current JSON Node is a complex JSON Object (not a simple string, bool, or number) and will go through each key in the object and push items
 //on to the Queue to be recursed through
 function processComplexObject(dataQueue, thisJson, thisDataItem, shouldPrefix) {
